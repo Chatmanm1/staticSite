@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Now</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>What I’m Doing Now</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="projects.html">Projects</a>
+    <a href="then.html">Then</a>
+  </nav>
+<p>Inspired by <a href="https://512pixels.net/now/">Stephen Hackett at 512 Pixels</a>, who was inspired by<a href="https://www.macsparky.com/now/"> David Sparks at MacSparky</a>, who gives a hat tip to <a href="https://sive.rs/now">Derek Sivers for the idea of this “Now”</a> page. </p>
+<p> Updated 250212 </p>
+<h2 id="projects">Projects</h2>
+<h3 id="family">Family</h3>
+<p>In early February my wife and I welcomed our first child, Harrison, into our family—six weeks early. He is perfect in every way—a bit early, but perfect! Kayla has forever made my life unimaginably fantastic in ways I could never have imagined, and this next adventure will only make us stronger. </p>
+<h3 id="making">Making</h3>
+<p>I&#39;m working on finishing the workshop furniture for my garage so Harrison has enough space for his inevitable toy collection. While the garage is unsightly, I’m making good progress. The biggest limitation is gathering materials—I don’t want to purchase  costly supplies, so I’m at the mercy of the dumpster gods. </p>
+<p>My robot mower project has been plaguing me for almost two years now. I’ve been working on it on and off, but I want to develop a fully autonomous, solar-powered machine to take care of my yard. I love my Roomba inside, but outdoor mowers are cost-prohibitive. Since putting it into cold storage last winter, I’ve started a new CAD file and am focusing on making it work before adding extra features.</p>
+<p>I&#39;ve started learning how to engrave, and while they are crude, I&#39;m having a lot of fun. My first lathe, that was 3D printed has reached the end of its usefulness and I&#39;ve started collecting materials for a benchtop metal lathe. </p>
+<p>Documenting my projects has become somewhat of a habit on <a href="https://www.instagram.com/matcha.makes/">Instagram</a>, my complaints with that, and the social internet aside, it&#39;s been fun. Through that and the <a href="https://www.finewoodworking.com/">Finewoodworking</a> Discord channel, I&#39;ve learned and met many people. </p>
+<h3 id="health">Health</h3>
+<p>Last year, I ran my first-ever marathon. It wasn’t fast or fun, but I did it and proved to myself that I could. With the aforementioned baby, I don’t see myself spending long hours on the pavement like in previous years, so I’m shifting my focus more toward lifting. The exact goals aren’t clear yet, but roughly hitting a 1,000 lb total across three lifts and cresting 200 lbs for my body weight would be good places to start. </p>
+<h3 id="employment">Employment</h3>
+<p>I’m currently employed at a local electrical distributor as the Divisional Marketing Manager, taking over the role from someone who had worked at the company longer than I’ve been alive. There are many pain points but also plenty of opportunities for growth and challenge. .</p>
+
+
+</body>
+</html>
