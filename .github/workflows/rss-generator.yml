@@ -1,0 +1,34 @@
+# .github/workflows/rss-generator.yml
+
+name: Generate RSS Feed
+
+on:
+  push:
+    branches:
+      - main # Or your default branch (e.g., master)
+    paths:
+      - 'blogposts/**.html' # Changed from 'posts/**.html'
+
+jobs:
+  build_rss:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run RSS generator script
+        run: python generate_rss.py
+
+      - name: Commit and push updated RSS feed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Auto-generate RSS feed"
+          file_pattern: rss.xml
+          commit_user_name: "GitHub Actions Bot"
+          commit_user_email: "actions@github.com"
+          commit_author: "GitHub Actions Bot <actions@github.com>"
