@@ -25,10 +25,14 @@ jobs:
         run: python generate_rss.py
 
       - name: Commit and push updated RSS feed
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: Auto-generate RSS feed"
-          file_pattern: rss.xml
-          commit_user_name: "GitHub Actions Bot"
-          commit_user_email: "actions@github.com"
+- uses: stefanzweifel/git-auto-commit-action@v5
+  with:
+    commit_message: "chore: Auto-generate RSS feed"
+    file_pattern: rss.xml
+    push_options: '--force'
+    commit_user_name: GitHub Actions Bot
+    commit_user_email: actions@github.com
+  env:
+    GIT_AUTH_TOKEN: ${{ secrets.GH_PAT }}
+
           commit_author: "GitHub Actions Bot <actions@github.com>"
