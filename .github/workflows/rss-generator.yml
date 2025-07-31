@@ -3,12 +3,17 @@ name: Generate RSS Feed
 on:
   push:
     branches:
-      - main # Or your default branch (e.g., master)
+      - main
     paths:
-      - 'blogposts/**.html' # Changed from 'posts/**.html'
+      - 'blogposts/**.html'
 
 jobs:
   build_rss:
+    # This block grants the job permission to write files back to your repository.
+    # It's simpler and more secure than using a personal access token.
+    permissions:
+      contents: write
+
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -22,15 +27,12 @@ jobs:
       - name: Run RSS generator script
         run: python generate_rss.py
 
+      # This is the corrected 'auto-commit' step.
       - name: Commit and push updated RSS feed
-- uses: stefanzweifel/git-auto-commit-action@v5
-  with:
-    commit_message: "chore: Auto-generate RSS feed"
-    file_pattern: rss.xml
-    push_options: '--force'
-    commit_user_name: GitHub Actions Bot
-    commit_user_email: actions@github.com
-  env:
-    GIT_AUTH_TOKEN: ${{ secrets.GH_PAT }}
-
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Auto-generate RSS feed"
+          file_pattern: rss.xml
+          commit_user_name: "GitHub Actions Bot"
+          commit_user_email: "actions@github.com"
           commit_author: "GitHub Actions Bot <actions@github.com>"
