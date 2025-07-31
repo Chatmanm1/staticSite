@@ -1,4 +1,3 @@
-# .github/workflows/rss-generator.yml
 name: Generate RSS Feed
 
 on:
