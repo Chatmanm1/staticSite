@@ -22,7 +22,6 @@
     box-shadow:0 8px 30px rgba(0,0,0,0.6);
     backdrop-filter: blur(6px);
   }
-
   .controls{display:flex;gap:8px;align-items:center}
   input[type="url"]{
     flex:1;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:var(--panel);color:var(--accent);outline:none;font-size:15px;
@@ -36,7 +35,7 @@
     margin-top:14px;
     position:relative;
     width:100%;
-    padding-top:56.25%; /* 16:9 */
+    padding-top:56.25%;
     background:#000;
     border-radius:10px;
     overflow:hidden;
@@ -192,8 +191,9 @@ urlInput.addEventListener('keydown', (e)=>{
   }
 });
 
-// FIXED paste: only populate input, do not auto-play
+// FIXED paste: only populate input, do not auto-play or double paste
 document.addEventListener('paste', (ev)=>{
+  ev.preventDefault();
   const text = (ev.clipboardData || window.clipboardData).getData('text');
   if (text && extractYouTubeID(text)){
     urlInput.value = text;
