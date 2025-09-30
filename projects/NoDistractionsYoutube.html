@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Distraction-free YouTube</title>
+<title>Distraction-free Video</title>
 <style>
   :root{
     --bg:#0b0b0b;
@@ -58,7 +58,7 @@
   <div class="wrap" id="root">
     <div class="panel" id="panel">
       <div style="display:flex;align-items:center;gap:8px">
-        <div style="font-weight:700;font-size:16px">Distraction-free YouTube</div>
+        <div style="font-weight:700;font-size:16px">Distraction-free Video</div>
         <div class="mini-actions" style="margin-left:auto">
           <button id="toggleUI" title="Toggle controls (press 'i')">Hide UI</button>
           <button id="fullscreenBtn" title="Fullscreen player (press 'f')">Fullscreen</button>
@@ -66,7 +66,7 @@
       </div>
 
       <div style="margin-top:12px" class="controls">
-        <input id="urlInput" type="url" placeholder="Paste YouTube URL (youtube.com/watch?v=... or youtu.be/...)">
+        <input id="urlInput" type="url" placeholder="Paste YouTube or Twitch VOD URL">
         <button id="playBtn">Play</button>
       </div>
 
@@ -89,31 +89,101 @@
   </div>
 
 <script>
-function extractYouTubeID(url) {
+function extractVideoInfo(url) {
   if (!url) return null;
   try {
-    if (/^[A-Za-z0-9_-]{11}$/.test(url.trim())) return url.trim();
-    const u = new URL(url.includes('://') ? url : 'https://'+url);
+    const u = new URL(url.includes('://') ? url : 'https://' + url);
     const host = u.hostname.replace('www.','').toLowerCase();
+
+    // ---- YouTube ----
+    if (/^[A-Za-z0-9_-]{11}$/.test(url.trim())) {
+      return { type: 'youtube', id: url.trim() };
+    }
     if (host === 'youtu.be') {
       const id = u.pathname.slice(1).split(/[\/?&]/)[0];
-      return id || null;
+      return id ? { type: 'youtube', id } : null;
     }
     if (host.endsWith('youtube.com') || host.endsWith('youtube-nocookie.com')) {
       const v = u.searchParams.get('v');
-      if (v && /^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+      if (v && /^[A-Za-z0-9_-]{11}$/.test(v)) return { type: 'youtube', id: v };
       const pathParts = u.pathname.split('/');
       const embedIndex = pathParts.indexOf('embed');
       if (embedIndex !== -1 && pathParts[embedIndex+1]) {
         const id = pathParts[embedIndex+1].split(/[\/?&]/)[0];
-        if (/^[A-Za-z0-9_-]{11}$/.test(id)) return id;
+        if (/^[A-Za-z0-9_-]{11}$/.test(id)) return { type: 'youtube', id };
       }
       return null;
     }
+
+    // ---- Twitch VOD ----
+    if (host.endsWith('twitch.tv')) {
+      const parts = u.pathname.split('/');
+      const idx = parts.indexOf('videos');
+      if (idx !== -1 && parts[idx+1]) {
+        return { type: 'twitch', id: parts[idx+1] };
+      }
+      return null;
+    }
+
     return null;
-  } catch(e){
+  } catch(e) {
     return null;
   }
+}
+
+function buildSrc(info, opts) {
+  if (info.type === 'youtube') {
+    const domain = opts.privacy ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com';
+    const params = new URLSearchParams();
+    params.set('autoplay', opts.autoplay ? '1' : '0');
+    params.set('rel', '0');
+    params.set('modestbranding', '1');
+    params.set('playsinline', '1');
+    params.set('iv_load_policy', '3');
+    params.set('controls', opts.hideControls ? '0' : '1');
+    if (opts.loop) {
+      params.set('loop', '1');
+      params.set('playlist', info.id);
+    }
+    return `${domain}/embed/${info.id}?${params.toString()}`;
+  }
+
+  if (info.type === 'twitch') {
+    return `https://player.twitch.tv/?video=${info.id}&parent=matchamakes.net&autoplay=${opts.autoplay ? 'true' : 'false'}`;
+  }
+
+  return '';
+}
+
+function showError(msg){
+  errorEl.style.display = 'block';
+  errorEl.textContent = msg;
+}
+function clearError(){
+  errorEl.style.display = 'none';
+  errorEl.textContent = '';
+}
+
+function loadVideo(info){
+  clearError();
+  const old = playerWrap.querySelector('iframe');
+  if (old) old.remove();
+  placeholder.style.display = 'none';
+  const autoplay = document.getElementById('autoplay').checked;
+  const hideControls = document.getElementById('hideControls').checked;
+  const privacy = document.getElementById('privacy').checked;
+  const loop = document.getElementById('loop').checked;
+  const src = buildSrc(info, {autoplay, hideControls, privacy, loop});
+  const iframe = document.createElement('iframe');
+  iframe.src = src;
+  iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+  iframe.allowFullscreen = true;
+  iframe.title = info.type === 'youtube' ? 'YouTube player' : 'Twitch player';
+  playerWrap.appendChild(iframe);
+  setTimeout(() => {
+    document.body.classList.add('ui-hidden');
+    floating.style.display = 'block';
+  }, 350);
 }
 
 const playBtn = document.getElementById('playBtn');
@@ -126,62 +196,15 @@ const floating = document.getElementById('floating');
 const toggleUI = document.getElementById('toggleUI');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
 
-function showError(msg){
-  errorEl.style.display = 'block';
-  errorEl.textContent = msg;
-}
-function clearError(){
-  errorEl.style.display = 'none';
-  errorEl.textContent = '';
-}
-
-function buildSrc(id, opts){
-  const domain = opts.privacy ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com';
-  const params = new URLSearchParams();
-  params.set('autoplay', opts.autoplay ? '1' : '0');
-  params.set('rel', '0');
-  params.set('modestbranding', '1');
-  params.set('playsinline', '1');
-  params.set('iv_load_policy', '3');
-  params.set('controls', opts.hideControls ? '0' : '1');
-  if (opts.loop) {
-    params.set('loop', '1');
-    params.set('playlist', id);
-  }
-  return `${domain}/embed/${id}?${params.toString()}`;
-}
-
-function loadVideo(id){
-  clearError();
-  const old = playerWrap.querySelector('iframe');
-  if (old) old.remove();
-  placeholder.style.display = 'none';
-  const autoplay = document.getElementById('autoplay').checked;
-  const hideControls = document.getElementById('hideControls').checked;
-  const privacy = document.getElementById('privacy').checked;
-  const loop = document.getElementById('loop').checked;
-  const src = buildSrc(id, {autoplay, hideControls, privacy, loop});
-  const iframe = document.createElement('iframe');
-  iframe.src = src;
-  iframe.allow = 'autoplay; fullscreen; picture-in-picture';
-  iframe.allowFullscreen = true;
-  iframe.title = 'YouTube player';
-  playerWrap.appendChild(iframe);
-  setTimeout(() => {
-    document.body.classList.add('ui-hidden');
-    floating.style.display = 'block';
-  }, 350);
-}
-
 playBtn.addEventListener('click', ()=>{
   clearError();
   const url = urlInput.value.trim();
-  const id = extractYouTubeID(url);
-  if (!id){
-    showError('Invalid YouTube URL or missing video id. Paste a full URL or the 11-character video id.');
+  const info = extractVideoInfo(url);
+  if (!info){
+    showError('Invalid YouTube or Twitch VOD URL.');
     return;
   }
-  loadVideo(id);
+  loadVideo(info);
 });
 
 urlInput.addEventListener('keydown', (e)=>{
@@ -191,11 +214,10 @@ urlInput.addEventListener('keydown', (e)=>{
   }
 });
 
-// FIXED paste: only populate input, do not auto-play or double paste
 document.addEventListener('paste', (ev)=>{
   ev.preventDefault();
   const text = (ev.clipboardData || window.clipboardData).getData('text');
-  if (text && extractYouTubeID(text)){
+  if (text && extractVideoInfo(text)){
     urlInput.value = text;
     clearError();
   }
