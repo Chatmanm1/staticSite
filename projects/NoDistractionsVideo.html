@@ -115,12 +115,15 @@ function extractVideoInfo(url) {
       return null;
     }
 
-    // ---- Twitch VOD ----
+    // ---- Twitch (VODs or Live) ----
     if (host.endsWith('twitch.tv')) {
-      const parts = u.pathname.split('/');
+      const parts = u.pathname.split('/').filter(Boolean);
       const idx = parts.indexOf('videos');
       if (idx !== -1 && parts[idx+1]) {
-        return { type: 'twitch', id: parts[idx+1] };
+        return { type: 'twitch_vod', id: parts[idx+1] };
+      }
+      if (parts.length === 1) {
+        return { type: 'twitch_live', id: parts[0] };
       }
       return null;
     }
@@ -132,6 +135,8 @@ function extractVideoInfo(url) {
 }
 
 function buildSrc(info, opts) {
+  const parent = window.location.hostname;
+
   if (info.type === 'youtube') {
     const domain = opts.privacy ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com';
     const params = new URLSearchParams();
@@ -148,8 +153,12 @@ function buildSrc(info, opts) {
     return `${domain}/embed/${info.id}?${params.toString()}`;
   }
 
-  if (info.type === 'twitch') {
-    return `https://player.twitch.tv/?video=${info.id}&parent=matchamakes.net&autoplay=${opts.autoplay ? 'true' : 'false'}`;
+  if (info.type === 'twitch_vod') {
+    return `https://player.twitch.tv/?video=${info.id}&parent=${parent}&autoplay=${opts.autoplay ? 'true' : 'false'}`;
+  }
+
+  if (info.type === 'twitch_live') {
+    return `https://player.twitch.tv/?channel=${info.id}&parent=${parent}&autoplay=${opts.autoplay ? 'true' : 'false'}`;
   }
 
   return '';
@@ -178,7 +187,7 @@ function loadVideo(info){
   iframe.src = src;
   iframe.allow = 'autoplay; fullscreen; picture-in-picture';
   iframe.allowFullscreen = true;
-  iframe.title = info.type === 'youtube' ? 'YouTube player' : 'Twitch player';
+  iframe.title = info.type.startsWith('twitch') ? 'Twitch player' : 'YouTube player';
   playerWrap.appendChild(iframe);
   setTimeout(() => {
     document.body.classList.add('ui-hidden');
@@ -201,7 +210,7 @@ playBtn.addEventListener('click', ()=>{
   const url = urlInput.value.trim();
   const info = extractVideoInfo(url);
   if (!info){
-    showError('Invalid YouTube or Twitch VOD URL.');
+    showError('Invalid YouTube or Twitch URL.');
     return;
   }
   loadVideo(info);
@@ -257,5 +266,8 @@ document.addEventListener('keydown', (e)=>{
 
 window.addEventListener('load', ()=>{ urlInput.focus(); });
 </script>
+  <
 </body>
+  <h5> updated 251017 - added twitch vod support.
+  </h5>
 </html>
