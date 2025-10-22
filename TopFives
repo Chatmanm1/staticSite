@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>TopFives</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="now.html">Now</a>
+  </nav>
+
+
+
+<h4> 
+The Love Song of J. Alfred Prufrock T.S. Eliot</h4>
+
+<p>You can find many reading of this poem on the internet. Below are my top five of the bunch.</p>
+<p>&quot;<a href="https://www.poetryfoundation.org/poetrymagazine/poems/44212/the-love-song-of-j-alfred-prufrock">The Love Song of J. Alfred Prufrock</a>&quot;</p>
+<ol>
+<li><a href="https://www.youtube.com/watch?v=JAO3QTU4PzY">T.S. Eliot</a></li>
+<li><a href="https://www.youtube.com/watch?v=FUL4O4RTgh8&amp;t">Sir Alec Guinness</a></li>
+<li><a href="https://www.youtube.com/watch?v=adNOs1izBls">Jeremy Irons</a></li>
+<li><a href="https://www.youtube.com/watch?v=PLNsPhKlucY">Anthony Hopkins</a></li>
+<li><a href="https://www.youtube.com/watch?v=D9Rh0F-JuNI&amp;t">Tom Hiddleston</a></li>
+</ol>
