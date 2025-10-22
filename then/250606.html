@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <div id="header"></div>
+<script>
+  fetch('/partials/header.html')
+    .then(res => res.text())
+    .then(html => document.getElementById('header').innerHTML = html);
+</script>
   <meta charset="UTF-8" />
-  <title>Now</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
 </head>
-<body>
-  <h1>What I’m Doing Now</h1>
-  <nav>
- <a href="../about.html">About</a>
-    <a href="../blog.html">Blog</a>
-    <a href="../projects.html">Projects</a>
-    <a href="../TopFive.html">Top Fives</a>
-    <a href="../now.html">Now</a>
+
     
   </nav>
 <p>Inspired by <a href="https://512pixels.net/now/">Stephen Hackett at 512 Pixels</a>, who was inspired by<a href="https://www.macsparky.com/now/"> David Sparks at MacSparky</a>, who gives a hat tip to <a href="https://sive.rs/now">Derek Sivers for the idea of this “Now”</a> page. </p>

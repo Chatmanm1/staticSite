@@ -1,21 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <div id="header"></div>
+<script>
+  fetch('/partials/header.html')
+    .then(res => res.text())
+    .then(html => document.getElementById('header').innerHTML = html);
+</script>
   <meta charset="UTF-8" />
-  <title>Top Fives</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
 </head>
-<body>
-  <h1> Top Fives</h1>
-  <nav>
-    <a href="../index.html">Home</a>
-    <a href="../about.html">About</a>
-    <a href="../projects.html">Projects</a>
-    <a href="../blog.html">Blog</a>
-  </nav>
-<h2> A collection of top five rankings </a> 
+
+
+<h1> A collection of top five rankings </h1> 
 
 
 <h4> 
