@@ -8,13 +8,13 @@
 </head>
 <body>
   <h1>Matcha Makes</h1>
-  <nav>
-      <a href="https://matchamakes.net/">Home</a>
-    <a href="https://matchamakes.net/about.html">About</a>
-    <a href="https://matchamakes.net/projects.html">Projects</a>
-    <a href="https://matchamakes.net/TopFive.html">Top Five</a>
-    <a href="https://matchamakes.net/blog">Blog</a>
-  </nav>
+<div id="header"></div>
+<script>
+  fetch('/partials/header.html')
+    .then(res => res.text())
+    .then(html => document.getElementById('header').innerHTML = html);
+</script>
+
 
 <p>I gotta write this part now, but currently as of 250624 I have to start over. This project was inspired by Finewoodworking</p>
 
