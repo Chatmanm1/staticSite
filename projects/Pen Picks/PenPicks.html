@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>16-Team Bracket</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.min.js"></script>
+  <style>
+    body { margin: 0; background: #333; font-family: sans-serif; color: #fff; }
+    button { display: block; margin: 10px auto; padding: 10px 20px; font-size: 16px; }
+    canvas { display: block; margin: auto; background: #222; }
+  </style>
+</head>
+<body>
+
+<script>
+let rounds = [];
+let teams = [
+  "BIC Cristal", "Paper Mate InkJoy", "Pilot G2", "Parker Jotter",
+  "Cross Century II", "Lamy Safari", "Pentel R.S.V.P.", "Staedtler Triplus",
+  "Pilot Precise V7 RT", "Faber-Castell Grip", "Waterman Expert", "Schneider Slider",
+  "Pilot Acroball", "Caran d’Ache 849", "Uni-ball Jetstream", "Montblanc Meisterstück"
+];
+
+let winnerColor, winnerLineColor;
+let submitButton, downloadButton;
+
+// Google Form Settings
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeja4aadixTH22ls00apl8t5ftcgMGf5fZhJ11K4HdX7AcbDA/formResponse";
+const FORM_ENTRIES = [
+  "entry.1673376343", // Round 1
+  "entry.1667434902", // Round 2
+  "entry.264655693",  // Round 3
+  "entry.454156376",  // Round 4
+  "entry.999999999"   // Round 5 / Final placeholder
+];
+
+function setup() {
+  createCanvas(800, 800);
+  textAlign(CENTER, CENTER);
+  textSize(14);
+  winnerColor = color('#e07e3c');
+  winnerLineColor = color('#e07e3c');
+
+  // Round 1
+  let currentRound = teams.map(name => ({ name, winner: false }));
+  rounds.push(currentRound);
+
+  // Create 4 subsequent rounds for total 5 rounds
+  for (let r = 1; r < 5; r++) {
+    let round = [];
+    for (let i = 0; i < rounds[r - 1].length / 2; i++) {
+      round.push({ name: "", winner: false });
+    }
+    rounds.push(round);
+  }
+
+  // Pre-fill final winner box with "TBD"
+  rounds[4][0].name = "TBD";
+
+  submitButton = createButton("Submit Picks");
+  submitButton.position(20, 20);
+  submitButton.mousePressed(submitSelections);
+
+  downloadButton = createButton("Download Bracket as Image");
+  downloadButton.position(200, 20);
+  downloadButton.mousePressed(() => saveCanvas('bracket', 'png'));
+}
+
+function draw() {
+  background(30);
+  drawWinnerPaths();
+  drawBracket();
+}
+
+function drawBracket() {
+  let roundGap = width / rounds.length;
+  for (let r = 0; r < rounds.length; r++) {
+    let yGap = height / rounds[r].length;
+    for (let i = 0; i < rounds[r].length; i++) {
+      let x = r * roundGap + 80;
+      let y = i * yGap + yGap / 2;
+
+      let isHover = mouseX > x - 60 && mouseX < x + 60 &&
+                    mouseY > y - 15 && mouseY < y + 15;
+
+      // Highlight winners and final (excluding TBD)
+      if (rounds[r][i].winner || (r === rounds.length - 1 && rounds[r][i].name !== "" && rounds[r][i].name !== "TBD")) {
+        fill(winnerColor);
+      } else if (isHover) {
+        fill(100);
+      } else {
+        fill(50);
+      }
+
+      stroke(255);
+      rectMode(CENTER);
+      rect(x, y, 120, 30, 5);
+
+      fill(255);
+      noStroke();
+      text(rounds[r][i].name, x, y);
+    }
+  }
+}
+
+function drawWinnerPaths() {
+  let roundGap = width / rounds.length;
+  stroke(winnerLineColor);
+  strokeWeight(3);
+
+  for (let r = 0; r < rounds.length - 1; r++) {
+    let yGap = height / rounds[r].length;
+    for (let i = 0; i < rounds[r].length; i += 2) {
+      let teamA = rounds[r][i];
+      let teamB = rounds[r][i+1];
+      let winnerIndex = teamA.winner ? i : (teamB.winner ? i+1 : -1);
+      if (winnerIndex === -1) continue;
+
+      let x1 = r * roundGap + 140;
+      let y1 = winnerIndex * yGap + yGap / 2;
+      let x2 = (r+1) * roundGap + 20;
+      let y2 = Math.floor(i/2) * (height / rounds[r+1].length) + (height / rounds[r+1].length)/2;
+
+      line(x1, y1, x2, y2);
+    }
+  }
+
+  strokeWeight(1);
+}
+
+function mousePressed() {
+  let roundGap = width / rounds.length;
+  for (let r = 0; r < rounds.length - 1; r++) { // exclude last round
+    let yGap = height / rounds[r].length;
+    for (let i = 0; i < rounds[r].length; i++) {
+      let x = r * roundGap + 80;
+      let y = i * yGap + yGap / 2;
+      if (mouseX > x - 60 && mouseX < x + 60 && mouseY > y - 15 && mouseY < y + 15) {
+        handleClick(r, i);
+      }
+    }
+  }
+}
+
+function handleClick(r, i) {
+  if (r >= rounds.length - 1) return;
+
+  let matchIndex = Math.floor(i / 2);
+
+  // Reset this match
+  for (let j = 0; j < 2; j++) rounds[r][matchIndex*2 + j].winner = false;
+
+  // Set new winner
+  rounds[r][i].winner = true;
+
+  // Update ONLY next round in this match chain
+  rounds[r+1][matchIndex].name = rounds[r][i].name;
+  rounds[r+1][matchIndex].winner = false;
+
+  // Keep final placeholder visible if last round
+  if (r+1 === rounds.length - 1 && !rounds[r+1][0].winner) {
+    rounds[r+1][0].name = rounds[r+1][0].name || "TBD";
+  }
+}
+
+function submitSelections() {
+  let data = new URLSearchParams();
+
+  // Round 1
+  let round1 = rounds[0].filter(t => t.winner).map(t => t.name).join(", ");
+  data.append(FORM_ENTRIES[0], round1);
+
+  // Round 2
+  let round2 = rounds[1].filter(t => t.name).map(t => t.name).join(", ");
+  data.append(FORM_ENTRIES[1], round2);
+
+  // Round 3
+  let round3 = rounds[2].filter(t => t.name).map(t => t.name).join(", ");
+  data.append(FORM_ENTRIES[2], round3);
+
+  // Round 4
+  let round4 = rounds[3].filter(t => t.name).map(t => t.name).join(", ");
+  data.append(FORM_ENTRIES[3], round4);
+
+  // Final Winner
+  let finalWinner = rounds[4][0].name !== "TBD" ? rounds[4][0].name : "";
+  data.append(FORM_ENTRIES[4], finalWinner);
+
+  fetch(GOOGLE_FORM_URL, { method: "POST", body: data, mode: "no-cors" })
+    .then(() => alert("Bracket submitted!"))
+    .catch(err => console.error("Submission error:", err));
+}
+</script>
+</body>
+</html>
