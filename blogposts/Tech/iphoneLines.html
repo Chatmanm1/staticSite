@@ -1,3 +1,25 @@
+
+<html lang="en">
+<head>
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+</head>
+
+
+
 <p>On episode <a href="https://www.relay.fm/upgrade/583">583 of Upgrade</a> on Relay, <a href="https://sixcolors.com/jason/">Jason Snell </a>(a real life actual Journalist), and <a href="https://www.relay.fm/people/mykehurley">IMyke</a> were discussing how the iPhone 17 Pro really feels like a work tool.</p>
 <p>What doesn&#39;t feel like that is the iPhone Air. It&#39;s sleek, light, and feels &#39;bendable,&#39; although it definitely is not.</p>
 <p>Of course there is no #bendgate this year, so in search of another scandal the tech-journalists (little j, journalists) are trying to make <a href="https://9to5mac.com/2025/09/24/apple-responds-to-iphone-17-pro-scratch-and-durability-concerns/">ScratchGate</a> a thing. </p>
