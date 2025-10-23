@@ -17,7 +17,7 @@ While the folding iPhone is heavily rumored, it's still not a wide or profitable
 
 Just look at how great this would look:
 
-https://matchamakes.net/Images/iPhoneLineUp.png
+![[https://matchamakes.net/Images/iPhoneLineUp.png]]
 
 
 While I will admit that this goal is perhaps a bit faster moving than the [titanic-sized Apple ](https://sixcolors.com/post/2025/07/apple-q3-2025-results-and-charts-95b-revenue/) can accomplish, it would net them clarity. In a world where I literally heard someone blaming Apple for something Instagram did because they had no understanding that a company who manufactured the product wasn't also didn't design every piece of software on it, clarity is always preferred. 
