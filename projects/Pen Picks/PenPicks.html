@@ -183,8 +183,9 @@ function submitSelections() {
   data.append(FORM_ENTRIES[3], round4);
 
   // Final Winner
-  let finalWinner = rounds[4][0].name !== "TBD" ? rounds[4][0].name : "";
-  data.append(FORM_ENTRIES[4], finalWinner);
+ let lastRoundIndex = rounds.length - 2; // round 4
+let finalWinner = rounds[lastRoundIndex][0].winner ? rounds[lastRoundIndex][0].name : "";
+data.append(FORM_ENTRIES[4], finalWinner);
 
   fetch(GOOGLE_FORM_URL, { method: "POST", body: data, mode: "no-cors" })
     .then(() => alert("Bracket submitted!"))
