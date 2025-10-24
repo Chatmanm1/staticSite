@@ -157,15 +157,3 @@ button:hover {
 }
 
 /* Largest for very small screens (<480px) */
-@media (max-width: 480px) {
-  body {
-    font-size: 1.3rem;
-    line-height: 1.8;
-    padding: 0 1.5rem;
-  }
-
-  nav a {
-    display: block;
-    margin: 0.5rem 0;
-  }
-}
