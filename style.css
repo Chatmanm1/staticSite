@@ -7,16 +7,54 @@ body {
   padding: 0 1rem;
   line-height: 1.6;
 }
+
 a {
   color: #69ad45;
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
 }
+
 nav {
   margin-bottom: 2rem;
 }
+
 nav a {
   margin-right: 1rem;
+}
+
+/* --- Responsive adjustments for screens below 768px --- */
+@media (max-width: 768px) {
+  body {
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 0 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  nav {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  nav a {
+    display: inline-block;
+    margin: 0.5rem;
+  }
+}
+
+/* --- Optional tighter layout for very small devices (<480px) --- */
+@media (max-width: 480px) {
+  body {
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+  }
+
+  nav a {
+    display: block;
+    margin: 0.25rem 0;
+  }
 }
