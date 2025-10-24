@@ -27,7 +27,7 @@ nav a {
 }
 
 /* --- Double text size on smaller screens --- */
-@media (max-width: 788px) {
+@media (max-width: 388px) {
   body {
     font-size: 2rem; /* doubles base body text */
   }
