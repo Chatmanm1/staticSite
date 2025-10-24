@@ -37,8 +37,8 @@ nav a {
 /* Bigger again for mobile (<768px) */
 @media (max-width: 768px) {
   body {
-    font-size: 1.3rem;
-    line-height: 1.8;
+    font-size: 2.0rem;
+    line-height: 2.8;
     padding: 0 1.5rem;
   }/* Base body */
 body {
