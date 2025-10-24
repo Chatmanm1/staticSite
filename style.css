@@ -26,3 +26,13 @@ nav a {
   margin-right: 1rem;
 }
 
+/* --- Double text size on smaller screens --- */
+@media (max-width: 788px) {
+  body {
+    font-size: 2rem; /* doubles base body text */
+  }
+
+  h1, h2, h3, h4, h5, h6, p {
+    font-size: 2em; /* doubles headers and paragraph text */
+  }
+}
