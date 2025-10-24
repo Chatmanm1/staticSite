@@ -1,3 +1,4 @@
+/* Base body */
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #202020;
@@ -6,18 +7,21 @@ body {
   margin: 2rem auto;
   padding: 0 1rem;
   line-height: 1.6;
-  font-size: 1rem; /* base desktop size */
+  font-size: clamp(1rem, 4vw, 2.5rem); /* scales from 1rem → 2.5rem */
 }
 
+/* Links */
 a {
   color: #69ad45;
   text-decoration: none;
+  font-size: clamp(0.9rem, 3vw, 2rem); /* scales proportionally */
 }
 
 a:hover {
   text-decoration: underline;
 }
 
+/* Navigation */
 nav {
   margin-bottom: 2rem;
 }
@@ -26,24 +30,57 @@ nav a {
   margin-right: 1rem;
 }
 
-/* Slightly larger text on tablets and small laptops */
-@media (max-width: 1024px) {
-  body {
-    font-size: 1.1rem;
-    line-height: 1.7;
-  }
+/* Headings */
+h1 {
+  font-size: clamp(1.5rem, 6vw, 3.5rem);
+  line-height: 1.2;
 }
 
-/* Bigger again for mobile (<768px) */
+h2 {
+  font-size: clamp(1.3rem, 5vw, 3rem);
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: clamp(1.1rem, 4.5vw, 2.5rem);
+  line-height: 1.3;
+}
+
+/* Paragraphs */
+p {
+  font-size: clamp(1rem, 3.5vw, 2rem);
+  line-height: 1.6;
+}
+
+/* Form inputs / textareas */
+input, textarea, button {
+  font-size: clamp(1rem, 3.5vw, 2rem);
+}
+
+/* Buttons */
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #005fcc;
+}
+
+/* Responsive layout tweaks */
 @media (max-width: 768px) {
   body {
-    font-size: 1.3rem;
+    padding: 0 1.25rem;
     line-height: 1.8;
-    padding: 0 1.5rem;
   }
 
   nav {
-    margin-bottom: 1.5rem;
     text-align: center;
   }
 
@@ -53,12 +90,10 @@ nav a {
   }
 }
 
-/* Largest for very small screens (<480px) */
 @media (max-width: 480px) {
   body {
-    font-size: 1.3rem;
-    line-height: 1.8;
     padding: 0 1.5rem;
+    line-height: 2;
   }
 
   nav a {
