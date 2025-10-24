@@ -105,14 +105,14 @@ button {
   padding: 10px 20px;
   border: none;
   border-radius: 6px;
-  background: #007bff;
+  background: #69ad45;
   color: white;
   font-weight: 600;
   cursor: pointer;
 }
 
 button:hover {
-  background: #005fcc;
+  background: #69ad55;
 }
 
 /* Responsive layout tweaks */
