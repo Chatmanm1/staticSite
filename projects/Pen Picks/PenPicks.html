@@ -5,12 +5,48 @@
   <title>16-Team Bracket</title>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.min.js"></script>
   <style>
-    body { margin: 0; background: #333; font-family: sans-serif; color: #fff; }
-    button { display: block; margin: 10px auto; padding: 10px 20px; font-size: 16px; }
-    canvas { display: block; margin: auto; background: #222; }
+    body {
+      margin: 0;
+      background: #333;
+      font-family: sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    canvas {
+      display: block;
+      margin: 40px auto;
+      background: #222;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #444;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      transition: background-color 0.2s ease;
+    }
+    button:hover {
+      background-color: #e07e3c;
+    }
   </style>
 </head>
 <body>
+
+  <div id="canvas-container"></div>
+  <div class="button-container">
+    <button id="submitButton">Submit Picks</button>
+    <button id="downloadButton">Download Bracket as Image</button>
+  </div>
 
 <script>
 let rounds = [];
@@ -22,7 +58,6 @@ let teams = [
 ];
 
 let winnerColor, winnerLineColor;
-let submitButton, downloadButton;
 
 // Google Form Settings
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeja4aadixTH22ls00apl8t5ftcgMGf5fZhJ11K4HdX7AcbDA/formResponse";
@@ -31,8 +66,8 @@ const FORM_ENTRIES = [
   "entry.1667434902", // Round 2
   "entry.264655693",  // Round 3
   "entry.454156376",  // Round 4
-  "entry.2130249717",   // Round 5 / Final placeholder,  // Round 5 / Final placeholder
-  "entry.143151125",           // Unique user ID
+  "entry.2130249717", // Final winner
+  "entry.143151125"   // Unique user ID
 ];
 
 // Generate or retrieve user ID from localStorage
@@ -46,7 +81,8 @@ function getUserId() {
 }
 
 function setup() {
-  createCanvas(800, 800);
+  let cnv = createCanvas(800, 800);
+  cnv.parent("canvas-container");
   textAlign(CENTER, CENTER);
   textSize(14);
   winnerColor = color('#e07e3c');
@@ -68,13 +104,9 @@ function setup() {
   // Pre-fill final winner box with "TBD"
   rounds[4][0].name = "TBD";
 
-  submitButton = createButton("Submit Picks");
-  submitButton.position(20, 20);
-  submitButton.mousePressed(submitSelections);
-
-  downloadButton = createButton("Download Bracket as Image");
-  downloadButton.position(200, 20);
-  downloadButton.mousePressed(() => saveCanvas('bracket', 'png'));
+  // Hook up buttons
+  document.getElementById("submitButton").addEventListener("click", submitSelections);
+  document.getElementById("downloadButton").addEventListener("click", () => saveCanvas('bracket', 'png'));
 }
 
 function draw() {
@@ -134,13 +166,12 @@ function drawWinnerPaths() {
       line(x1, y1, x2, y2);
     }
   }
-
   strokeWeight(1);
 }
 
 function mousePressed() {
   let roundGap = width / rounds.length;
-  for (let r = 0; r < rounds.length - 1; r++) { // exclude last round
+  for (let r = 0; r < rounds.length - 1; r++) {
     let yGap = height / rounds[r].length;
     for (let i = 0; i < rounds[r].length; i++) {
       let x = r * roundGap + 80;
@@ -192,7 +223,7 @@ function submitSelections() {
   let round4 = rounds[3].filter(t => t.name).map(t => t.name).join(", ");
   data.append(FORM_ENTRIES[3], round4);
 
-  // Final Winner comes from last match of round 4
+  // Final Winner
   let finalWinner = rounds[3][0].winner ? rounds[3][0].name : "";
   data.append(FORM_ENTRIES[4], finalWinner);
 
