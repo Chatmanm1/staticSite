@@ -6,6 +6,7 @@ body {
   margin: 2rem auto;
   padding: 0 1rem;
   line-height: 1.6;
+  font-size: 1rem; /* base desktop size */
 }
 
 a {
@@ -25,36 +26,43 @@ nav a {
   margin-right: 1rem;
 }
 
-/* --- Responsive adjustments for screens below 768px --- */
+/* Slightly larger text on tablets and small laptops */
+@media (max-width: 1024px) {
+  body {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+}
+
+/* Bigger again for mobile (<768px) */
 @media (max-width: 768px) {
   body {
-    max-width: 100%;
-    margin: 1rem auto;
-    padding: 0 0.75rem;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 1.2rem;
+    line-height: 1.75;
+    padding: 0 1.25rem;
   }
 
   nav {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     text-align: center;
   }
 
   nav a {
     display: inline-block;
-    margin: 0.5rem;
+    margin: 0.75rem;
   }
 }
 
-/* --- Optional tighter layout for very small devices (<480px) --- */
+/* Largest for very small screens (<480px) */
 @media (max-width: 480px) {
   body {
-    font-size: 0.9rem;
-    padding: 0 0.5rem;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    padding: 0 1.5rem;
   }
 
   nav a {
     display: block;
-    margin: 0.25rem 0;
+    margin: 0.5rem 0;
   }
 }
