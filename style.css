@@ -28,7 +28,7 @@ nav a {
 }
 
 /* --- iPhone 13 Pro Max portrait breakpoint --- */
-@media (max-width: 500px) {
+@media (max-width: 300px) {
   body {
     font-size: 1.75rem; /* 1.75× base size */
     line-height: 1.75 * 1.6; /* scale line-height proportionally */
