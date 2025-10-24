@@ -1,4 +1,46 @@
-/* Base body */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #202020;
+  color: #dee4cf;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  line-height: 1.6;
+  font-size: 1rem; /* base desktop size */
+}
+
+a {
+  color: #69ad45;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  margin-bottom: 2rem;
+}
+
+nav a {
+  margin-right: 1rem;
+}
+
+/* Slightly larger text on tablets and small laptops */
+@media (max-width: 1024px) {
+  body {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+}
+
+/* Bigger again for mobile (<768px) */
+@media (max-width: 768px) {
+  body {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    padding: 0 1.5rem;
+  }/* Base body */
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #202020;
@@ -94,6 +136,32 @@ button:hover {
   body {
     padding: 0 1.5rem;
     line-height: 2;
+  }
+
+  nav a {
+    display: block;
+    margin: 0.5rem 0;
+  }
+}
+
+
+  nav {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  nav a {
+    display: inline-block;
+    margin: 0.75rem;
+  }
+}
+
+/* Largest for very small screens (<480px) */
+@media (max-width: 480px) {
+  body {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    padding: 0 1.5rem;
   }
 
   nav a {
