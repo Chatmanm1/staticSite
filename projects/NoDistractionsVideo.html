@@ -1,12 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="https://matchamakes.net/images/no distractions icon.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="https://matchamakes.net/images/no distractions icon.png" sizes="32x32">
   <link rel="apple-touch-icon" href="https://matchamakes.net/images/no distractions icon.png">
   <link rel="shortcut icon" href="https://matchamakes.net/images/no distractions icon.png">
   <script>
-
-    // Load footer
     fetch('/partials/footer.html')
       .then(res => res.text())
       .then(html => document.getElementById('footer').innerHTML = html);
@@ -58,6 +56,9 @@
     position:fixed;right:16px;top:16px;background:rgba(0,0,0,0.45);padding:8px;border-radius:8px;color:var(--muted);font-size:13px;border:1px solid rgba(255,255,255,0.03)
   }
   .error{color:#ff6b6b;font-size:13px;margin-top:8px}
+  .queue-section{margin-top:20px;}
+  .queue-section h4{margin-bottom:8px;font-size:15px;}
+  .queue-inputs{display:flex;flex-direction:column;gap:6px;}
   @media (max-width:560px){
     .wrap{padding:12px}
     .panel{padding:12px}
@@ -87,6 +88,18 @@
         <label style="margin-left:auto"><input id="loop" type="checkbox"> Loop</label>
       </div>
 
+      <div class="queue-section">
+        <h4>Up Next</h4>
+        <div class="queue-inputs">
+          <input type="url" id="queue1" placeholder="Up Next #1">
+          <input type="url" id="queue2" placeholder="Up Next #2">
+          <input type="url" id="queue3" placeholder="Up Next #3">
+          <input type="url" id="queue4" placeholder="Up Next #4">
+          <input type="url" id="queue5" placeholder="Up Next #5">
+        </div>
+        <button id="playNextBtn" style="margin-top:10px;">Play Next</button>
+      </div>
+
       <div class="hint">After you click Play the controls will fade. Press <strong>i</strong> to toggle the UI back and forth, <strong>f</strong> to fullscreen, <strong>Esc</strong> to exit fullscreen.</div>
       <div id="error" class="error" role="alert" style="display:none"></div>
 
@@ -105,7 +118,6 @@ function extractVideoInfo(url) {
     const u = new URL(url.includes('://') ? url : 'https://' + url);
     const host = u.hostname.replace('www.','').toLowerCase();
 
-    // ---- YouTube ----
     if (/^[A-Za-z0-9_-]{11}$/.test(url.trim())) {
       return { type: 'youtube', id: url.trim() };
     }
@@ -125,7 +137,6 @@ function extractVideoInfo(url) {
       return null;
     }
 
-    // ---- Twitch (VODs or Live) ----
     if (host.endsWith('twitch.tv')) {
       const parts = u.pathname.split('/').filter(Boolean);
       const idx = parts.indexOf('videos');
@@ -206,6 +217,7 @@ function loadVideo(info){
 }
 
 const playBtn = document.getElementById('playBtn');
+const playNextBtn = document.getElementById('playNextBtn');
 const urlInput = document.getElementById('urlInput');
 const playerWrap = document.getElementById('playerWrap');
 const placeholder = document.getElementById('placeholder');
@@ -224,6 +236,22 @@ playBtn.addEventListener('click', ()=>{
     return;
   }
   loadVideo(info);
+});
+
+playNextBtn.addEventListener('click', ()=>{
+  clearError();
+  const queueInputs = [queue1, queue2, queue3, queue4, queue5];
+  for (let i = 0; i < queueInputs.length; i++) {
+    const url = queueInputs[i].value.trim();
+    if (url) {
+      const info = extractVideoInfo(url);
+      if (info) {
+        loadVideo(info);
+        queueInputs[i].value = '';
+        break;
+      }
+    }
+  }
 });
 
 urlInput.addEventListener('keydown', (e)=>{
@@ -276,13 +304,9 @@ document.addEventListener('keydown', (e)=>{
 
 window.addEventListener('load', ()=>{ urlInput.focus(); });
 </script>
-  <h5> updated 251017 - added twitch vod support.  </h5>
 
-    <!-- 100% privacy-first analytics -->
+<h5> updated 251017 - added twitch vod support + queue system. </h5>
 <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 </body>
-  <!-- Footer -->
-
-
+<div id="footer"></div>
 </html>
-  <div id="footer"></div>
