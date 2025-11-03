@@ -5,9 +5,11 @@
   <link rel="apple-touch-icon" href="https://matchamakes.net/images/no distractions icon.png">
   <link rel="shortcut icon" href="https://matchamakes.net/images/no distractions icon.png">
   <script>
+    // If you don't have /partials/footer.html locally, this will 404 harmlessly.
     fetch('/partials/footer.html')
       .then(res => res.text())
-      .then(html => document.getElementById('footer').innerHTML = html);
+      .then(html => document.getElementById('footer').innerHTML = html)
+      .catch(()=>{});
   </script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -91,16 +93,17 @@
       <div class="queue-section">
         <h4>Up Next</h4>
         <div class="queue-inputs">
-          <input type="url" id="queue1" placeholder="Up Next #1">
-          <input type="url" id="queue2" placeholder="Up Next #2">
-          <input type="url" id="queue3" placeholder="Up Next #3">
-          <input type="url" id="queue4" placeholder="Up Next #4">
-          <input type="url" id="queue5" placeholder="Up Next #5">
+          <input type="url" id="queue1" class="queue-input" placeholder="Up Next #1">
+          <input type="url" id="queue2" class="queue-input" placeholder="Up Next #2">
+          <input type="url" id="queue3" class="queue-input" placeholder="Up Next #3">
+          <input type="url" id="queue4" class="queue-input" placeholder="Up Next #4">
+          <input type="url" id="queue5" class="queue-input" placeholder="Up Next #5">
         </div>
         <button id="playNextBtn" style="margin-top:10px;">Play Next</button>
       </div>
 
-      <div class="hint">After you click Play the controls will fade. Press <strong>i</strong> to toggle the UI back and forth, <strong>f</strong> to fullscreen, <strong>Esc</strong> to exit fullscreen.</div>
+     <div class="hint">After you click Play the controls will fade. Press <strong>0</strong> to toggle the UI back and forth, <strong>9</strong> to fullscreen, <strong>Esc</strong> to exit fullscreen.</div>
+
       <div id="error" class="error" role="alert" style="display:none"></div>
 
       <div class="player-wrap" id="playerWrap" aria-live="polite" style="margin-top:12px">
@@ -219,6 +222,11 @@ function loadVideo(info){
 const playBtn = document.getElementById('playBtn');
 const playNextBtn = document.getElementById('playNextBtn');
 const urlInput = document.getElementById('urlInput');
+const queue1 = document.getElementById('queue1');
+const queue2 = document.getElementById('queue2');
+const queue3 = document.getElementById('queue3');
+const queue4 = document.getElementById('queue4');
+const queue5 = document.getElementById('queue5');
 const playerWrap = document.getElementById('playerWrap');
 const placeholder = document.getElementById('placeholder');
 const errorEl = document.getElementById('error');
@@ -261,13 +269,19 @@ urlInput.addEventListener('keydown', (e)=>{
   }
 });
 
+/*
+  Only intercept paste when urlInput has focus.
+  This fixes the problem where paste into Up Next boxes was blocked.
+*/
 document.addEventListener('paste', (ev)=>{
-  ev.preventDefault();
+  const active = document.activeElement;
   const text = (ev.clipboardData || window.clipboardData).getData('text');
-  if (text && extractVideoInfo(text)){
+  if (active === urlInput && text && extractVideoInfo(text)){
+    ev.preventDefault();
     urlInput.value = text;
     clearError();
   }
+  // otherwise do nothing and allow normal paste into queue inputs or other fields
 });
 
 function toggleUIVisibility(force){
@@ -298,8 +312,8 @@ fullscreenBtn.addEventListener('click', async ()=>{
 });
 
 document.addEventListener('keydown', (e)=>{
-  if (e.key === 'i') toggleUIVisibility();
-  if (e.key === 'f') fullscreenBtn.click();
+  if (e.key === '0') toggleUIVisibility();
+  if (e.key === '9') fullscreenBtn.click();
 });
 
 window.addEventListener('load', ()=>{ urlInput.focus(); });
