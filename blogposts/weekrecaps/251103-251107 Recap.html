@@ -1,0 +1,59 @@
+
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+
+#251103 - 251107 Recap
+
+### What I Thought About:
+- The long Web:  https://adactio.com/articles/1522/
+- Things 'are of a time', and trying to preserve them can cause significant diminishing results.
+- Flirting with the idea of trying EMACS, instead of OBTF in Obisidian which has been an effective but short lived aspect so far.
+- Using all my technology in black and white mode has helped me realize the reliance I have on color to communicate meaning, when shapes could be more prevalent. 
+
+###  What I Made:
+- I finished making one of the panels for the [[carved flower box]] I'm working on. I'm about 10 hours into this project, and just hope it pays off. There is likely 20-30 more to go.
+- Improvements to [No Distractions Video](https://matchamakes.net/projects/nodistractionsvideo). I'm really happy with how this is progressing.  
+- [New home screen layout.](https://matchamakes.net/Images/251107Homescreen.jpg)Trying something a little more minimal, and really testing the "search" capabilities of iOS26
+- Kayak and I did air dry clay and it was really fun to make something physical so fast. I made a little pen rest and a cup. 
+### What I'm Consuming:
+- [Inkdependence Mike Streams](https://www.twitch.tv/inkdependencemike)
+- [The Infinite and the Divine audio book](https://www.blacklibrary.com/all-products/the-infinite-and-the-divine-ebook-2020.html)
+- [The Lovesong of J Alfred Prufrock](https://youtu.be/D9Rh0F-JuNI?si=n29wwhYwt8kUiRAG)
+
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
