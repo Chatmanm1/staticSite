@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pomodoro Win95</title>
+
+<!-- p5.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
+<style>
+    body {
+        background: #C0C0C0;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .win95-box {
+        background: #C0C0C0;
+        border: 2px solid #808080;
+        padding: 15px;
+        width: 360px;
+    }
+
+    input {
+        width: 40px;
+        margin-left: 5px;
+        margin-right: 10px;
+        border: 2px solid #808080;
+        background: #FFFFFF;
+    }
+
+    button {
+        background: #C0C0C0;
+        border: 2px solid #808080;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .label-row {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    #timerText {
+        font-size: 26px;
+        font-weight: bold;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    #phaseText {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    #pointsText {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+<div class="win95-box">
+
+    <div class="label-row">
+        Work (min):
+        <input id="workInput" type="number" value="25">
+    </div>
+
+    <div class="label-row">
+        Break (min):
+        <input id="breakInput" type="number" value="5">
+    </div>
+
+    <div class="label-row">
+        Cycles:
+        <input id="cyclesInput" type="number" value="1">
+    </div>
+
+    <button onclick="startPomodoro()">Start</button>
+
+    <div id="phaseText">Idle</div>
+    <div id="timerText">00:00</div>
+    <div id="pointsText">Points: 0</div>
+
+    <div id="p5-holder"></div>
+</div>
+
+<script>
+let workMins = 25;
+let breakMins = 5;
+let cycles = 1;
+
+let currentPhase = "idle"; 
+let remaining = 0;
+let total = 0;
+
+let currentCycle = 0;
+let points = 0;
+
+let barW = 300;
+let barH = 22;
+
+// preload simple beep
+let beep;
+
+function preload() {
+    beep = new Audio("Chatmanm1/staticSite/projects/Work Timer/10sPomodorostop.mp3"); // put your file in same folder
+}
+
+function setup() {
+    let c = createCanvas(barW, barH);
+    c.parent("p5-holder");
+    noStroke();
+}
+
+function draw() {
+    background("#C0C0C0");
+
+    if (total > 0) {
+        let fraction = 1 - (remaining / total);
+        let filled = floor(fraction * barW);
+
+        let block = 12;
+        for (let x = 0; x < filled; x += block) {
+            fill("#0000A8");
+            rect(x, 0, block - 2, barH);
+        }
+    }
+}
+
+function startPomodoro() {
+    workMins = parseInt(document.getElementById("workInput").value);
+    breakMins = parseInt(document.getElementById("breakInput").value);
+    cycles = parseInt(document.getElementById("cyclesInput").value);
+
+    points = 0;
+    document.getElementById("pointsText").textContent = "Points: 0";
+
+    currentCycle = 0;
+    runWorkPhase();
+}
+
+function runWorkPhase() {
+    currentCycle++;
+    currentPhase = "work";
+
+    remaining = workMins * 60;
+    total = remaining;
+
+    document.getElementById("phaseText").textContent =
+        "Work [" + currentCycle + "/" + cycles + "]";
+}
+
+function runBreakPhase() {
+    currentPhase = "break";
+
+    remaining = breakMins * 60;
+    total = remaining;
+
+    document.getElementById("phaseText").textContent =
+        "Break [" + currentCycle + "/" + cycles + "]";
+}
+
+function tick() {
+    if (currentPhase === "idle") return;
+    if (remaining <= 0) {
+        beep.play();
+
+        if (currentPhase === "work") {
+            runBreakPhase();
+            return;
+        }
+
+        if (currentPhase === "break") {
+            points++;
+            document.getElementById("pointsText").textContent =
+                "Points: " + points;
+
+            if (currentCycle < cycles) {
+                runWorkPhase();
+            } else {
+                currentPhase = "idle";
+                document.getElementById("phaseText").textContent = "Done";
+                return;
+            }
+        }
+
+        return;
+    }
+
+    remaining--;
+
+    let m = Math.floor(remaining / 60);
+    let s = remaining % 60;
+    document.getElementById("timerText").textContent =
+        String(m).padStart(2, "0") + ":" +
+        String(s).padStart(2, "0");
+}
+
+// 1-second loop
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
