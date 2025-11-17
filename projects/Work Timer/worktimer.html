@@ -8,16 +8,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
 
 <style>
-     body {
-    background: #C0C0C0;
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    align-items: center;   /* vertical center */
-    justify-content: center; /* horizontal center */
-}
-    
+    body {
+        background: #C0C0C0;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;      /* vertical center */
+        justify-content: center;  /* horizontal center */
+    }
 
     .win95-box {
         background: #C0C0C0;
@@ -38,6 +37,7 @@
         background: #C0C0C0;
         border: 2px solid #808080;
         padding: 5px 10px;
+        margin-top: 10px;
         cursor: pointer;
     }
 
@@ -96,12 +96,13 @@
     <div id="p5-holder"></div>
 </div>
 
+
 <script>
 let workMins = 25;
 let breakMins = 5;
 let cycles = 1;
 
-let currentPhase = "idle"; 
+let currentPhase = "idle";
 let remaining = 0;
 let total = 0;
 
@@ -111,19 +112,21 @@ let points = 0;
 let barW = 300;
 let barH = 22;
 
-// preload simple beep
 let beep;
 
+// preload audio
 function preload() {
-    beep = new Audio("projects/Work Timer/10sPomodorostop.mp3"); // put your file in same folder
+    beep = new Audio("projects/Work Timer/10sPomodorostop.mp3");   // file must be next to index.html
 }
 
+// p5.js setup
 function setup() {
     let c = createCanvas(barW, barH);
     c.parent("p5-holder");
     noStroke();
 }
 
+// p5.js draw loop
 function draw() {
     background("#C0C0C0");
 
@@ -139,10 +142,17 @@ function draw() {
     }
 }
 
+// USER STARTS TIMER
 function startPomodoro() {
     workMins = parseInt(document.getElementById("workInput").value);
     breakMins = parseInt(document.getElementById("breakInput").value);
     cycles = parseInt(document.getElementById("cyclesInput").value);
+
+    // AUDIO UNLOCK (required by browsers)
+    beep.play().then(() => {
+        beep.pause();
+        beep.currentTime = 0;
+    });
 
     points = 0;
     document.getElementById("pointsText").textContent = "Points: 0";
@@ -151,6 +161,7 @@ function startPomodoro() {
     runWorkPhase();
 }
 
+// WORK TIMER START
 function runWorkPhase() {
     currentCycle++;
     currentPhase = "work";
@@ -162,54 +173,9 @@ function runWorkPhase() {
         "Work [" + currentCycle + "/" + cycles + "]";
 }
 
+// BREAK TIMER START
 function runBreakPhase() {
     currentPhase = "break";
 
     remaining = breakMins * 60;
-    total = remaining;
-
-    document.getElementById("phaseText").textContent =
-        "Break [" + currentCycle + "/" + cycles + "]";
-}
-
-function tick() {
-    if (currentPhase === "idle") return;
-    if (remaining <= 0) {
-        beep.play();
-
-        if (currentPhase === "work") {
-            runBreakPhase();
-            return;
-        }
-
-        if (currentPhase === "break") {
-            points++;
-            document.getElementById("pointsText").textContent =
-                "Points: " + points;
-
-            if (currentCycle < cycles) {
-                runWorkPhase();
-            } else {
-                currentPhase = "idle";
-                document.getElementById("phaseText").textContent = "Done";
-                return;
-            }
-        }
-
-        return;
-    }
-
-    remaining--;
-
-    let m = Math.floor(remaining / 60);
-    let s = remaining % 60;
-    document.getElementById("timerText").textContent =
-        String(m).padStart(2, "0") + ":" +
-        String(s).padStart(2, "0");
-}
-
-// 1-second loop
-setInterval(tick, 1000);
-</script>
-</body>
-</html>
+    total =
