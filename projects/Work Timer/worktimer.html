@@ -14,8 +14,8 @@
         margin: 0;
         height: 100vh;
         display: flex;
-        align-items: center;      /* vertical center */
-        justify-content: center;  /* horizontal center */
+        align-items: center;
+        justify-content: center;
     }
 
     .win95-box {
@@ -113,10 +113,11 @@ let barW = 300;
 let barH = 22;
 
 let beep;
+let intervalId;
 
 // preload audio
 function preload() {
-    beep = new Audio("projects/Work Timer/10sPomodorostop.mp3");   // file must be next to index.html
+    beep = new Audio("projects/Work Timer/10sPomodorostop.mp3"); // adjust path if needed
 }
 
 // p5.js setup
@@ -158,7 +159,10 @@ function startPomodoro() {
     document.getElementById("pointsText").textContent = "Points: 0";
 
     currentCycle = 0;
+
+    if (intervalId) clearInterval(intervalId);
     runWorkPhase();
+    intervalId = setInterval(tick, 1000);
 }
 
 // WORK TIMER START
@@ -171,6 +175,7 @@ function runWorkPhase() {
 
     document.getElementById("phaseText").textContent =
         "Work [" + currentCycle + "/" + cycles + "]";
+    updateTimerDisplay();
 }
 
 // BREAK TIMER START
@@ -178,4 +183,49 @@ function runBreakPhase() {
     currentPhase = "break";
 
     remaining = breakMins * 60;
-    total =
+    total = remaining;
+
+    document.getElementById("phaseText").textContent =
+        "Break [" + currentCycle + "/" + cycles + "]";
+    updateTimerDisplay();
+}
+
+// UPDATE TIMER AND TAB TITLE
+function updateTimerDisplay() {
+    let mins = Math.floor(remaining / 60);
+    let secs = remaining % 60;
+    let display = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+    document.getElementById("timerText").textContent = display;
+    document.title = `[${display}] ${currentPhase === "work" ? "Work" : "Break"}`;
+}
+
+// TIMER TICK
+function tick() {
+    if (remaining > 0) {
+        remaining--;
+        updateTimerDisplay();
+    } else {
+        beep.play();
+        if (currentPhase === "work") {
+            points++;
+            document.getElementById("pointsText").textContent = "Points: " + points;
+            runBreakPhase();
+        } else {
+            if (currentCycle < cycles) {
+                runWorkPhase();
+            } else {
+                currentPhase = "idle";
+                document.getElementById("phaseText").textContent = "Done!";
+                document.title = "Pomodoro Complete!";
+                clearInterval(intervalId);
+            }
+        }
+    }
+}
+
+// Initialize p5
+new p5();
+</script>
+</body>
+</html>
