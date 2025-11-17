@@ -87,7 +87,7 @@
         <input id="cyclesInput" type="number" value="1">
     </div>
 
-    <button onclick="startPomodoro()">Start</button>
+    <button id="startBtn">Start</button>
 
     <div id="phaseText">Idle</div>
     <div id="timerText">00:00</div>
@@ -95,7 +95,6 @@
 
     <div id="p5-holder"></div>
 </div>
-
 
 <script>
 let workMins = 25;
@@ -112,12 +111,26 @@ let points = 0;
 let barW = 300;
 let barH = 22;
 
-let beep;
 let intervalId;
 
-// preload audio
-function preload() {
-    beep = new Audio("projects/Work Timer/10sPomoSquare.mp3"); // adjust path if needed
+let beepFile = "projects/Work Timer/10sPomodorostop.mp3"; // adjust path
+let audioUnlocked = false;
+
+// Unlock audio after first click
+function unlockAudio() {
+    if (!audioUnlocked) {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        ctx.resume();
+        audioUnlocked = true;
+    }
+}
+
+// Play beep reliably
+function playBeep() {
+    if (audioUnlocked) {
+        let beep = new Audio(beepFile);
+        beep.play();
+    }
 }
 
 // p5.js setup
@@ -143,70 +156,23 @@ function draw() {
     }
 }
 
-// USER STARTS TIMER
-function startPomodoro() {
-    workMins = parseInt(document.getElementById("workInput").value);
-    breakMins = parseInt(document.getElementById("breakInput").value);
-    cycles = parseInt(document.getElementById("cyclesInput").value);
-
-    // AUDIO UNLOCK (required by browsers)
-    beep.play().then(() => {
-        beep.pause();
-        beep.currentTime = 0;
-    });
-
-    points = 0;
-    document.getElementById("pointsText").textContent = "Points: 0";
-
-    currentCycle = 0;
-
-    if (intervalId) clearInterval(intervalId);
-    runWorkPhase();
-    intervalId = setInterval(tick, 1000);
-}
-
-// WORK TIMER START
-function runWorkPhase() {
-    currentCycle++;
-    currentPhase = "work";
-
-    remaining = workMins * 60;
-    total = remaining;
-
-    document.getElementById("phaseText").textContent =
-        "Work [" + currentCycle + "/" + cycles + "]";
-    updateTimerDisplay();
-}
-
-// BREAK TIMER START
-function runBreakPhase() {
-    currentPhase = "break";
-
-    remaining = breakMins * 60;
-    total = remaining;
-
-    document.getElementById("phaseText").textContent =
-        "Break [" + currentCycle + "/" + cycles + "]";
-    updateTimerDisplay();
-}
-
-// UPDATE TIMER AND TAB TITLE
+// Update timer text and tab title
 function updateTimerDisplay() {
     let mins = Math.floor(remaining / 60);
     let secs = remaining % 60;
-    let display = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    let display = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
 
     document.getElementById("timerText").textContent = display;
     document.title = `[${display}] ${currentPhase === "work" ? "Work" : "Break"}`;
 }
 
-// TIMER TICK
+// Timer tick
 function tick() {
     if (remaining > 0) {
         remaining--;
         updateTimerDisplay();
     } else {
-        beep.play();
+        playBeep();
         if (currentPhase === "work") {
             points++;
             document.getElementById("pointsText").textContent = "Points: " + points;
@@ -223,6 +189,48 @@ function tick() {
         }
     }
 }
+
+// Start work phase
+function runWorkPhase() {
+    currentCycle++;
+    currentPhase = "work";
+
+    remaining = workMins * 60;
+    total = remaining;
+
+    document.getElementById("phaseText").textContent = `Work [${currentCycle}/${cycles}]`;
+    updateTimerDisplay();
+}
+
+// Start break phase
+function runBreakPhase() {
+    currentPhase = "break";
+
+    remaining = breakMins * 60;
+    total = remaining;
+
+    document.getElementById("phaseText").textContent = `Break [${currentCycle}/${cycles}]`;
+    updateTimerDisplay();
+}
+
+// Start Pomodoro
+function startPomodoro() {
+    workMins = parseInt(document.getElementById("workInput").value);
+    breakMins = parseInt(document.getElementById("breakInput").value);
+    cycles = parseInt(document.getElementById("cyclesInput").value);
+
+    points = 0;
+    document.getElementById("pointsText").textContent = "Points: 0";
+    currentCycle = 0;
+
+    if (intervalId) clearInterval(intervalId);
+    runWorkPhase();
+    intervalId = setInterval(tick, 1000);
+}
+
+// Attach unlockAudio to button click
+document.getElementById("startBtn").addEventListener("click", unlockAudio);
+document.getElementById("startBtn").addEventListener("click", startPomodoro);
 
 // Initialize p5
 new p5();
