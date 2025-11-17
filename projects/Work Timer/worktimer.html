@@ -39,6 +39,7 @@
         padding: 5px 10px;
         margin-top: 10px;
         cursor: pointer;
+        margin-right: 5px;
     }
 
     .label-row {
@@ -87,6 +88,7 @@
         <input id="cyclesInput" type="number" value="1">
     </div>
 
+    <button id="enableSoundBtn">Enable Sound</button>
     <button id="startBtn">Start</button>
 
     <div id="phaseText">Idle</div>
@@ -116,16 +118,17 @@ let intervalId;
 let beepFile = "projects/Work Timer/10sPomoSquare.mp3"; // adjust path
 let audioUnlocked = false;
 
-// Unlock audio after first click
-function unlockAudio() {
+// Enable sound button
+function enableSound() {
     if (!audioUnlocked) {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         ctx.resume();
         audioUnlocked = true;
+        alert("Sound enabled! Beeps will now play.");
     }
 }
 
-// Play beep reliably
+// Play beep
 function playBeep() {
     if (audioUnlocked) {
         let beep = new Audio(beepFile);
@@ -156,7 +159,7 @@ function draw() {
     }
 }
 
-// Update timer text and tab title
+// Update timer display and tab title
 function updateTimerDisplay() {
     let mins = Math.floor(remaining / 60);
     let secs = remaining % 60;
@@ -228,8 +231,8 @@ function startPomodoro() {
     intervalId = setInterval(tick, 1000);
 }
 
-// Attach unlockAudio to button click
-document.getElementById("startBtn").addEventListener("click", unlockAudio);
+// Attach button handlers
+document.getElementById("enableSoundBtn").addEventListener("click", enableSound);
 document.getElementById("startBtn").addEventListener("click", startPomodoro);
 
 // Initialize p5
