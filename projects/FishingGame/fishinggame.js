@@ -24,7 +24,25 @@ function setup() {
   textAlign(CENTER, CENTER);
   textSize(16);
 }
+function drawMissFish(x, y) {
+  push();
+  translate(x, y);
+  noStroke();
+  fill(255, 100, 100);
 
+  // body
+  ellipse(0, 0, 30, 15);
+
+  // tail
+  fill(255, 50, 50);
+  triangle(-15, 0, -25, -7, -25, 7);
+
+  // optional eye
+  fill(0);
+  ellipse(8, -2, 3, 3);
+
+  pop();
+}
 function draw() {
   background(30);
 
@@ -34,16 +52,15 @@ function draw() {
   text(`Rod: ${rodLevel}   Streak: ${streak}`, width / 2, 130);
 
   drawButton();
-
-  if (missAnim) {
-    fill(255, 100, 100);
-    ellipse(missX, missY, 30, 15);
-    missY -= 5;
-    missTimer -= deltaTime;
-    if (missTimer <= 0) {
-      missAnim = false;
-    }
+if (missAnim) {
+  drawMissFish(missX, missY);
+  missY -= 5;
+  missTimer -= deltaTime;
+  if (missTimer <= 0) {
+    missAnim = false;
   }
+}
+   
 }
 
 function drawButton() {
@@ -128,3 +145,4 @@ function resolveCatch(luck) {
 
   state = "idle";
 }
+
