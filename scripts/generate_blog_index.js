@@ -1,17 +1,21 @@
 const fs = require("fs");
 const path = require("path");
 
-const sourceDir = "blogposts"; // folder containing your blogposts
-const outDir = "dist";
+const sourceDir = "blogposts";      // folder with blog files
+const partialsDir = "partials";     // folder with header/footer/recent
+const outDir = "dist";              // output folder
 const outFile = path.join(outDir, "index.html");
 
-// Ensure output directory exists
+// 1. Create dist folder
 fs.mkdirSync(outDir, { recursive: true });
 
-// Copy blogposts folder into dist
+// 2. Copy blogposts folder
 fs.cpSync(sourceDir, path.join(outDir, sourceDir), { recursive: true });
 
-// Generate list of blog files
+// 3. Copy partials folder
+fs.cpSync(partialsDir, path.join(outDir, partialsDir), { recursive: true });
+
+// 4. Generate blog list
 const files = fs.readdirSync(sourceDir)
   .filter(f => fs.statSync(path.join(sourceDir, f)).isFile());
 
@@ -19,7 +23,7 @@ const links = files.map(f =>
   `<li><a href="/${sourceDir}/${f}">${f}</a></li>`
 ).join("\n");
 
-// Full HTML with dynamic partials and blog links
+// 5. Generate full HTML
 const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,25 +45,15 @@ const html = `<!DOCTYPE html>
   <div id="footer"></div>
 
   <script>
-    // Load header
-    fetch('/partials/header.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('header').innerHTML = html);
-
-    // Load footer
-    fetch('/partials/footer.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('footer').innerHTML = html);
-
-    // Load recent
-    fetch('/partials/Recent.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('recent').innerHTML = html);
+    fetch('/partials/header.html').then(r=>r.text()).then(html=>document.getElementById('header').innerHTML=html);
+    fetch('/partials/footer.html').then(r=>r.text()).then(html=>document.getElementById('footer').innerHTML=html);
+    fetch('/partials/Recent.html').then(r=>r.text()).then(html=>document.getElementById('recent').innerHTML=html);
   </script>
 
 </body>
 </html>`;
 
-// Write index.html
+// 6. Write index.html
 fs.writeFileSync(outFile, html);
+
 console.log(`Generated index.html with ${files.length} blogposts.`);
