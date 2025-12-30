@@ -1,4 +1,3 @@
 [build]
-base = "staticSite"
 command = "node scripts/generate_blog_index.js"
 publish = "dist"
