@@ -1,27 +1,46 @@
 const fs = require("fs");
 const path = require("path");
 
-const sourceDir = "blogposts";
+const sourceDir = "blogposts"; // folder containing your blogposts
 const outDir = "dist";
+const outFile = path.join(outDir, "index.html");
 
+// Ensure output directory exists
 fs.mkdirSync(outDir, { recursive: true });
 
-// copy blogposts into dist
+// Copy blogposts folder into dist
 fs.cpSync(sourceDir, path.join(outDir, sourceDir), { recursive: true });
 
+// Generate list of blog files
 const files = fs.readdirSync(sourceDir)
   .filter(f => fs.statSync(path.join(sourceDir, f)).isFile());
 
 const links = files.map(f =>
-  `<li><a href="/blogposts/${f}">${f}</a></li>`
+  `<li><a href="/${sourceDir}/${f}">${f}</a></li>`
 ).join("\n");
 
-const html = `<!doctype html>
-<html>
+// Full HTML with dynamic partials and blog links
+const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>Blog Posts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+</head>
+<body>
+
   <div id="header"></div>
- <script>
+  <div id="recent"></div>
+
+  <h1>Blog Posts</h1>
+  <ul>
+    ${links}
+  </ul>
+
+  <div id="footer"></div>
+
+  <script>
     // Load header
     fetch('/partials/header.html')
       .then(res => res.text())
@@ -31,30 +50,16 @@ const html = `<!doctype html>
     fetch('/partials/footer.html')
       .then(res => res.text())
       .then(html => document.getElementById('footer').innerHTML = html);
-  </script>
-  <script>
-  // Load recent
+
+    // Load recent
     fetch('/partials/Recent.html')
       .then(res => res.text())
       .then(html => document.getElementById('recent').innerHTML = html);
   </script>
-  <meta charset="UTF-8" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
-</head>
-
-<body>
-<h1>Blog Posts</h1>
-<ul>
-${links}
-</ul>
-<!-- 100% privacy-first analytics -->
-<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 
 </body>
-
-  <!-- Footer -->
-  <div id="footer"></div>
 </html>`;
 
-fs.writeFileSync(path.join(outDir, "index.html"), html);
+// Write index.html
+fs.writeFileSync(outFile, html);
+console.log(`Generated index.html with ${files.length} blogposts.`);
