@@ -31,12 +31,11 @@ const html = `<!DOCTYPE html>
   <title>Blog Posts</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://matchamakes.net/style.css" />
-  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
 
   <div id="header"></div>
-  <div id="recent"></div>
+
 
   <h1>Blog Posts</h1>
   <ul>
