@@ -1,0 +1,38 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #202020;
+  color: #dee4cf;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  line-height: 1.6;
+  font-size: 1rem; /* base desktop size */
+}
+
+a {
+  color: #69ad45;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  margin-bottom: 2rem;
+}
+
+nav a {
+  margin-right: 1rem;
+}
+
+/* --- Double text size on smaller screens --- */
+@media (max-width: 388px) {
+  body {
+    font-size: 2rem; /* doubles base body text */
+  }
+
+  h1, h2, h3, h4, h5, h6, p {
+    font-size: 2em; /* doubles headers and paragraph text */
+  }
+}
