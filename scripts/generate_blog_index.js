@@ -78,7 +78,7 @@ ${links}
 <script>
 fetch('/partials/header.html').then(r=>r.text()).then(h=>header.innerHTML=h);
 fetch('/partials/footer.html').then(r=>r.text()).then(h=>footer.innerHTML=h);
-fetch('/partials/Recent.html').then(r=>r.text()).then(h=>recent.innerHTML=h);
+
 </script>
 
 </body>
