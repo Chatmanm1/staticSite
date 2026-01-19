@@ -1,0 +1,81 @@
+
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+While browsing [Mastodon,](https://mastodon.social/deck/getting-started) [Ellane ](https://mastodon.social/@ellane@pkm.social)posted this link to her blog. I find it helpful to do review and better understand myself and look back on why I may have done something.  You can find Ellane's [blogpost here!](https://ellanew.com/2025/01/19/ptpl-191-answer-8-questions-why-plain-text)
+
+### 1. Why did you start using plain text.
+    
+- I've always kept .txt files around since I loathe working in Microsoft Word and other types of word processors. They are always more clunky, and often more complicated than what I, or most people need. So when I write marketing copy or even emails, for almost a decade, I've been writing them in a Notepad window then copy-pasting the text into their respective software.
+        
+### 2. When did you start using plain text?
+    
+- For about 15 years Since 2016, but the last 8 or so I've really expanded my usage everywhere.
+        
+### 3. What do you use plain text for?
+    
+- Much more than I mentioned above. I use it for logging workouts, grocery lists, One Big Text File, and more! Basically if I type it, I prefer to put it in a plain text format then copy-paste it to its home. While it could be seen as a hassle, it allows me to retain all the information I want on my own devices.
+        
+### 4. What keeps you using plain text?
+    
+ Long, rambling answers I've written in this box all end up boiling down to "control." I like knowing and being able to find things I've done. Being able to search and find a string of text I wrote from 10 years ago is magical.
+        
+### 5. Do you use any markup or formatting languages? If so, which ones and why?
+    
+ Yes! This started when i found out about Markdown in 2016. The website I was maintaining at that point had a Markdown parsing layer, so that's when I found out. The subsequent adoption of Trello led me to format all the cards and projects in Markdown to help with legibility for my team.
+        
+### 6. What are your favorite plain text tools or applications?
+    
+ - Obsidian    
+- "search"
+- AutoHotkey/TextReplacement
+- Notepad/my own custom text editor.
+        
+### 7. Is there one tool you can’t do without?
+    
+- I'm tempted to say Obsidian, since it makes opening and editing files so easy, but in reality it's text expansion. There are so many templates I use for my files that are triggered by a hotkey/snippet that computers feel broken without them installed.
+        
+### 8. Is there anything you can’t do with plain text?
+    
+ If there is, I haven't found it yet! Although, current frustrations with iOS-native text manipulation is a thorn in the lovely rose that is plain text.
+
+
+> This is some part of a blockquote.
+> more stuff
+
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
