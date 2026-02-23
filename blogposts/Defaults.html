@@ -1,0 +1,112 @@
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+
+Inspired by [Robb Knight](https://rknight.me/blog/app-defaults/) and [Brad Dowdy](https://www.penaddict.com/analog-defaults) I wanted to put a stake in the ground as to what my 'defaults' are at least as of 260219.
+
+- ### Analogue 
+- 🖊️ **Gel Ink Pen:** 
+	- Uniball Zento 0.38
+- 🖊️ **Ballpoint Pen:** 
+	- Studio Neat Mark One
+- 🖊️ **Rollerball Pen:** 
+	- Bic Cristal, 
+- 🖊️ **Fineliner:**
+	- Sakura Pigment Micron
+- 🖋️ **Fountain Pen:** 
+	- Pilot 743 with PO Nib. 
+- 🖋️ **Fountain Pen 2:**
+	- Pilot Vanishing Point Matte Black. 
+- ✏️ **Mechanical Pencil:** 
+	- Rotring 600 
+- ✏️ **Wooden Pencil:**
+	- Ticonderoga #2
+- 🟠 **Highlighter/Marker:**
+	- Papermate Flair
+- 📒 **Planner:** 
+	- Custom Wooden 6 Ring, or Sketchbook
+- 📗 **Journal:**
+	- Midori A5
+- 👝 **Pen Case:** 
+	- Engraved 7 slot pen case received as gift
+
+### Digital 
+- 📮 Mail Server
+	- Google
+- 📨 Mail Client
+	- Gmail
+- 📝 Notes
+	- Obsidian
+- ✅ To-Do
+	 - Custom Ring bound notebook. and notecards for work
+- 📷 iPhone Photo Shooting
+	- Default camera app, or Obscura
+- 🟦 Photos Management
+	- Photos
+- 📆 Calendar
+	- Google Calendar. 
+- 📁 Cloud File Storage
+	- Home server, backed up to multiple online services such as Drive, iCloud and Backblaze
+- 📖 RSS
+	- My own self written RSS Feed reader.
+- 🔎 Browser 
+	- Chrome/Firefox
+- 💬 Chat
+	- Messages
+	- Discord
+- 📑 Read-it-Later
+	- Obsidian
+- ✍🏼 Note Taking
+	 - Obsidian
+- 🛒 Shopping List
+	- Obsidian    
+- 🍴 Meal Planning ( as Recipe Management)
+	- Obsidian/Google Calendar. 
+- 💰 Budgeting and finance
+	- Sheets.
+- 📰 News
+	- RSS Feeds
+- 🎵 Music
+	- Spotify/Youtube 
+- 🎤 Podcast
+	- Apple Podcasts/ Overcast dependent on which podcast I'm listening to. 
+
+
+
+
+ </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
