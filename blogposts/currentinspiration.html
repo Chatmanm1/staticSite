@@ -1,0 +1,55 @@
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+### A list of individuals whose work, I currently feel is inspiring me. 
+in no particular order.
+
+- [Germán Peraire Woodworking](https://www.youtube.com/@germanperairewoodworking)
+- [Studio NoHa (Nolan Hatfield)](https://www.studionoha.com/)
+- [Barry Dima](https://www.instagram.com/bnmd_ig/)
+- Mike Mattenson 
+- [Matthias Wandel]([woodgears.ca](https://woodgears.ca/))
+- [Ansel Adams]([anseladams.com](https://www.anseladams.com/pages/explore-photographs))
+- [Merlin Mann](https://hotdogsladies.omg.lol/)
+- The Mountain Goats
+- https://www.instagram.com/sojoonghan_/?e=3e8f4ee5-a83c-4386-81a4-73b2dbb5f405&g=5
+- Andrew Hunter
+- Tim Coleman
+- [Piglet](https://open.spotify.com/artist/7eMopflZIkcPF4refj6MNU?si=DdbDqdCuQJyVytt-G_NwqQ)
+
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
