@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator</title>
+    <style>
+        body {
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        #controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        #palette {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        .color-card {
+            width: 140px;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+        .hex-code {
+            background: white;
+            padding: 4px 8px;
+            font-size: 0.85rem;
+            border: 1px solid #000;
+            margin-bottom: 8px;
+        }
+        .copy-btn {
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            background: #fff;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+        .copy-btn:active {
+            background: #000;
+            color: #fff;
+        }
+        select, .gen-btn {
+            padding: 8px;
+            font-family: monospace;
+            border: 1px solid #000;
+            background: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <label for="type">Type:</label>
+        <select id="type">
+            <option value="random">Random</option>
+            <option value="monochromatic">Monochromatic</option>
+            <option value="analogous">Analogous</option>
+            <option value="complementary">Complementary</option>
+            <option value="triadic">Triadic</option>
+        </select>
+        <button class="gen-btn" onclick="generatePalette()">Generate</button>
+    </div>
+
+    <div id="palette"></div>
+
+    <script>
+        function hslToHex(h, s, l) {
+            l /= 100;
+            const a = s * Math.min(l, 1 - l) / 100;
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+        }
+
+        function getHues(baseHue, type) {
+            switch (type) {
+                case 'monochromatic': return Array(5).fill(baseHue);
+                case 'analogous': return [baseHue - 30, baseHue - 15, baseHue, baseHue + 15, baseHue + 30];
+                case 'complementary': return [baseHue, baseHue, baseHue + 180, baseHue + 180, baseHue];
+                case 'triadic': return [baseHue, baseHue + 120, baseHue + 240, baseHue, baseHue + 120];
+                default: return Array.from({length: 5}, () => Math.floor(Math.random() * 360));
+            }
+        }
+
+        function copyToClipboard(text, btn) {
+            navigator.clipboard.writeText(text);
+            const originalText = btn.innerText;
+            btn.innerText = 'COPIED';
+            setTimeout(() => btn.innerText = originalText, 1000);
+        }
+
+        function generatePalette() {
+            const paletteContainer = document.getElementById('palette');
+            const type = document.getElementById('type').value;
+            paletteContainer.innerHTML = '';
+            
+            const baseHue = Math.floor(Math.random() * 360);
+            const hues = getHues(baseHue, type);
+
+            hues.forEach((h, i) => {
+                let s = 70;
+                let l = 50;
+
+                if (type === 'monochromatic') l = 20 + (i * 15);
+                else if (type === 'complementary' || type === 'triadic') l = (i % 2 === 0) ? 40 : 60;
+
+                const hex = hslToHex((h + 360) % 360, s, l);
+                
+                const card = document.createElement('div');
+                card.className = 'color-card';
+                card.style.backgroundColor = hex;
+                
+                const label = document.createElement('span');
+                label.className = 'hex-code';
+                label.innerText = hex;
+
+                const btn = document.createElement('button');
+                btn.className = 'copy-btn';
+                btn.innerText = 'Copy';
+                btn.onclick = () => copyToClipboard(hex, btn);
+                
+                card.appendChild(label);
+                card.appendChild(btn);
+                paletteContainer.appendChild(card);
+            });
+        }
+
+        generatePalette();
+    </script>
+</body>
+</html>
