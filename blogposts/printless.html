@@ -1,25 +1,4 @@
-<html lang="en">
-  <div id="header"></div>
- <script>
-    // Load header
-    fetch('/partials/header.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('header').innerHTML = html);
 
-    // Load footer
-    fetch('/partials/footer.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('footer').innerHTML = html);
-  </script>
-  <meta charset="UTF-8" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
-  <meta charset="UTF-8">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-</head>
-<body>
- <div id="markdown-content" style="display:none;">
 
 
 
@@ -42,14 +21,3 @@ I'm not really sure. I've temporarily filled the 3D printing enclosure with some
 I guess it's a "see you later" not a goodbye. 
 
   
-<!-- markdown rendering-->
- <script>
-    const md = document.getElementById('markdown-content').innerText;
-    document.getElementById('rendered').innerHTML = marked.parse(md);
-  </script>
-<!-- 100% privacy-first analytics -->
-<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-</body>
-  <!-- Footer -->
-  <div id="footer"></div>
-</html>
