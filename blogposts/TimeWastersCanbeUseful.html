@@ -1,0 +1,56 @@
+
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+### Preamble
+Often when at work or at home, or even in the grocery store line, I have a sense of dread and begin to feel overwhelmed. This can quickly spiral into a state of panic about the state of the world, my life, or if i remembered to close that door at home. This leads to me reflexively opening something to break out of the bad feelings. Often it is social media, which is something I wish didn't happen.
+
+### The goal
+Create a simple, yet effective time waster game, that helps get me back to the current moment, and out of the spiral. 
+
+### Strategy: 
+I know p5.js pretty well and have a game called [Kill the Bokoblin](https://matchabarnes.itch.io/kill-the-bokoblin)I made while waiting for Tears of the Kingdom. I can repurpose much of that code and integrate a simpler graphic to ease speed and implementation. 
+
+This was the initial plan, in the end I just asked a LLM (Llama) to make it based on p5.js. Was it the lazy way out? Yes. Was it the fastest way to get me to where I wanted to be? Also yes. I also hadn't played with the newer versions of Llama on my machine so that was interesting. 
+
+### Is it effective? 
+For me, yes. It has helped me break out of  a cycle and play a round or two until I fail a few times. After losing and by giving my brain a reset  the  tactile feedback and simple visual tracking is a sort of grounding exercise. The speed increase of the interactions redirect my brain to external stimuli. The 60-second duration prevents me getting trapped playing forever. 
+
+
+### [Play The Game](https://matchamakes.net/projects/ballpressing/index.html)
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
