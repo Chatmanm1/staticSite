@@ -12,7 +12,13 @@
 </head>
 <body>
     <script>
-        let targets = [];
+    function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  background(220);
+}let targets = [];
 let score = 0;
 let gameState = 'START'; 
 let timer = 60;
@@ -20,10 +26,39 @@ let lastSpawnTime = 0;
 let spawnRate = 1000;
 let lives = 3;
 
+// Audio variables
+let audioCtx;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
   textFont('sans-serif');
+}
+
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+
+function playClick() {
+  if (!audioCtx) return;
+  
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+  
+  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+  
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.1);
 }
 
 function draw() {
@@ -76,7 +111,6 @@ function updateTargets() {
     let t = targets[i];
     t.size += t.growth;
 
-    // Blue fill update
     fill(0, 120, 255, 150);
     stroke(255);
     strokeWeight(2);
@@ -107,6 +141,8 @@ function drawMenu(title, subtitle) {
 }
 
 function touchStarted() {
+  initAudio();
+  
   if (gameState === 'START' || gameState === 'GAMEOVER') {
     resetGame();
     return false;
@@ -118,6 +154,7 @@ function touchStarted() {
       let t = targets[i];
       let d = dist(mouseX, mouseY, t.x, t.y);
       if (d < t.size / 2 + 20) {
+        playClick(); // Trigger sound on hit
         targets.splice(i, 1);
         score++;
         hit = true;
@@ -135,6 +172,10 @@ function resetGame() {
   lives = 3;
   spawnRate = 1000;
   gameState = 'PLAY';
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function windowResized() {
