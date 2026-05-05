@@ -1,0 +1,71 @@
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+
+### Business in the Front
+ There are many things I've taken from [Merlin Mann](https://www.merlinmann.com/), but one of them, apart from my [Top Fives](https://matchamakes.net/blogposts/topfive), I've started collating a list of ["lifehacks"](https://matchamakes.net/blogposts/unwritten) and advice from his [Wisdom.md](https://wisdom.limo/)  project.
+
+
+Below is a list of item's I've found useful, from Merlin and others, those will be denoted otherwise assume it's from the aforementioned Widsom.md.  I [strongly encourage downloading the ebook version](https://github.com/merlinmann/wisdom/tree/master/ebooks) and reading it every so often. 
+ 
+### Merlin Mann List. 
+- If you don't remember what a cable does, you can almost definitely discard it.
+- First, make a hole. Because before you can properly clean, organize, or even _purge_ a given area, you'll need to know where the stuff that's not currently where you want it to be will go. Yes, especially the trash.
+- If you're not sure what you want, it's almost definitely more sleep.
+- Thoughts and feelings are real, but they do not have to define you. Remember that you are the sky—_not the weather_. (Thanks, Pema
+- Occasionally silently remind yourself, "Remember you said you wanted this."
+- Learn about Chesterton's Fence. Then, actively resist altering a given situation before you understand the reasons why it's remained unchanged for so long. (Thanks, G. K. C.)
+- Open your mail over the recycling bin.
+- If you're not sure who's doing your emotional labor, it's probably everyone you know.
+- Stop jamming every space so full of stuff. Leave room both for other stuff and for no stuff at all. Areas without stuff represent areas of possibility.
+- Before you buy a new book, try to get a copy from the library—or just download an ebook sample. If you can't manage to finish reading the Kindle sample, you certainly oughtn't pay to not read the rest.
+
+### My additions
+- It's important to understand which interactions are transactional, and which are relational. Do not mix the two. Standing in line telling a life story to a clerk who is eyeing down the line behind you is not a way to make anyone happy.
+- Sometimes making things IS the point. 
+- "Do not waste a moment, because you have none to spare" interpretation of Marcus Aurelius's   _"Memento, homo, quia pulvis es et in pulverem reverteris_"
+
+
+
+
+
+
+updated 260505
+
+
+ </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
