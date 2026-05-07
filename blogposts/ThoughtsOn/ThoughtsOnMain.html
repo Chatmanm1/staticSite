@@ -1,0 +1,184 @@
+
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+>### Preamble
+When navigating through life, frequently I find myself having strong emotions about random topics, things, or ideas. Per [Merlin Mann's](http://wisdom.limo/) advice, writing something every day is important. The quantity, and subject matter isn't super important. The fact that you spend time creating something and thinking about a topic is the benefit. At least, that is my interpretation.  
+
+[Derek Sivers](https://sive.rs/dj) recommends having journals for topics for things you think of frequently. I keep all my daily thoughts in my [[One big text file]] and can reference back to that when I want to know when/if I though about a topic before. I average about 32 entries per day in that file, so there are plenty of thoughts. 
+
+I wanted to take on this as a challenge for November in 2025. Last year I attempted to do [NANOWRIMO](https://en.wikipedia.org/wiki/National_Novel_Writing_Month), and was not successful. I did get something started, but didn't finish.  I'm hoping the openness of this [[Challenge to myself]] will allow me to complete it every day, or at least feel some sort of success at the end.
+
+### Topics
+Please find below the topics linked to their respective posts. These were generated randomly. I just took the first generated list and am going with it. I do reserve the right to work on these in any order, and have varying lengths, and lack of structure. Thoughts are rarely linear, or fluid,  and I don't suspect I have unique or revolutionary thoughts on these topics. 
+
+# Keys
+
+
+# [[Thoughts on Silence]]
+
+
+# [[Thoughts on - Coffee]]
+
+
+# Dust
+
+
+# Rest
+
+
+# Boredom
+
+
+# Corners
+
+
+# Waiting
+
+
+# Routine
+
+
+# Tools
+
+
+# Weather
+
+
+# Momentum
+
+
+# Decline
+
+
+# Maintenance
+
+
+# Distance
+
+
+# Precision
+
+
+# [[Thoughts on - Noise]]
+
+
+# Effort
+
+
+# Light
+
+
+# Failure
+
+
+# Pattern
+
+
+# Comfort
+
+
+# Habits
+
+
+# Time
+
+
+# Complexity
+
+
+# Windows
+
+
+# Motion
+
+
+# Order
+
+
+# Rust
+
+
+# [[Thoughts on - Paper]]
+
+
+# Attention
+
+
+# Water
+
+
+# Friction
+
+
+# [[Thoughts on Warmth]]
+
+
+# Weight
+
+
+# Storage
+
+
+# Aluminum 
+
+
+# Reflection
+
+
+# Intuition
+
+
+# Shadows
+
+
+# Repetition
+
+
+# Tacos
+
+
+# Sleep
+
+
+# [[Thoughts on - Boundaries]]
+
+
+# Gratitude
+
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
