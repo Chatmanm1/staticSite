@@ -1,0 +1,71 @@
+
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+
+
+#  Thoughts on Coffee
+I started drinking coffee when I was 16, and while I haven't had it every day, it is certainly a staple of my life. 
+
+#### Insights on people
+With the fear of being to philosophical and pretentious picking at my mind,  I think with only slight exaggeration, someone's relationship with coffee can be a good litmus test on their personality and persona. A big claim, but one that I consider at least partially useful in understanding the differences between people. 
+
+To clarify, the relationship someone has with something they consume every day is more revealing, than that its coffee itself. Try and think of people who drink coffee in your life and these questions about their habit.
+
+- Do they gulp it down as quickly as possible? 
+- Do they drink it with sweeteners?
+- Have they created a ritual around the consumption?
+- Are they a "Black as dirt" coffee drinker?
+- Are they drinking the cheapest of the cheap?
+
+
+Someone who creates a mini ritual around their consumption can give you insights into their thoughts. In order to have created such a ritual, no matter the scale, they must have thought about their enjoyment/dependance/need for the drink. Similarly individuals who preface any coffee shop order with "Black as it can be," or "black as dirt" is not concerned about the taste of coffee, but the perception of their order. Not to state they don't enjoy coffee black, but a barista would never add creamer to a customers coffee without asking.
+
+#### Waste of limited resources
+Without a doubt coffee is a [massive industry](https://en.wikipedia.org/wiki/Economics_of_coffee), and has serious economic and humanitarian effects on the Earth. I can't say I feel guilt free drinking coffee as much as I do knowing that people are being exploited for the market
+
+#### Pompous Pastime
+I grow tired of coffee snobs. Very quickly when looking into the [3rd wave coffee culture](https://en.wikipedia.org/wiki/Third-wave_coffee) I was appalled with the pretentiousness. People, especially now, are quick to make a topic their entire personality. I have no patience for these pricks, and find them distasteful and their views deranged. 
+
+
+[Thoughts On Main](https://matchamakes.net/blogposts/thoughtson/thoughtsonmain.html)
+
+
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
+
+
