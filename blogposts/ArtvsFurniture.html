@@ -1,0 +1,58 @@
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+### Front Matter
+It's easy to look online and see a immense amount of imagery. It also can be difficult to discern what is art, and what is truly functional.  Analyzing the scope of a piece is important when trying to understand what to take away from it. 
+
+There is an ever present "they don't make it like they used to" and "all massed produced stuff is crap" prevalent in the woodworking/maker community as a whole. Furniture held up in a museum,  shown in magazines, or shared, reshared, reblogged, reposted, online has to first and foremost LOOK good. The eye-catching nature  is what ensures the spread/preservation. 
+
+### So Why am I Grumpy?
+What's the harm? People make pretty things all the time. Well, the intersection of the functional and artistic is where the true craftsman lies. Critically, many of key influencing styles (Shaker and Edo Period Sashimono) have a focus on the simplistic and functionality of the object. The over-the-top and often gaudy design of Federal, or Ming Dynasty pieces have very little sway over me. 
+
+I can appreciate them for their beauty, but there is no way some of those chairs, or dressers would have lasted very long had they not been meticulously taken care of for hundreds of years. This is only elevated with the current internet social media craze. No examples are being included of current work, because some people just want to make pretty things, not functional and that is fine. 
+
+A large contributor to this, even before the rise of the internet was the author of "The Cabinet Maker's Notebook" [James Krenov.](https://thekrenovarchive.org/) A giant in the world of woodworking, much of his critics, myself included, consider him more of an artist than a furniture maker. It's difficult to overstate the positive influence Krenov has on the fine furniture world, and woodworking in general, but his beautiful work was created for the beauty of the material, not the functionality of the end product. I say this in full knowledge I will never come close to either his design abilities or skills with a handplane. 
+
+Krenov merely is an easy example of the aesthetic skew in furniture making. He is held up as one of the best, and rightfully so, it's critical to not get carried away with one aspect of the craft. Yes, things can be beautiful, but they should also be functional. Krenov plays an important role in exposing a large amount of people to the counter culture of beauty for beauty's sake, in our optimization, and mass manufacturing society. 
+
+The main focus here is that furniture should be a mixture of both function and beauty, or perhaps better known as [Good Design](https://matchamakes.net/blogposts/unwritten). Indexing too heavily into one of the two aspects will detract from the other. The current push of eye catching in order for more discovery of your work, is pushing the whole of woodworking, and making in a direction that is more style over substance. 
+
+
+### Conclusion
+It could be argued that the most functional chair is the ugliest, or the most beautiful is the most likely to fall apart at the slightest breeze .Furniture is unique because it requires greatness of both visual appeal and structurally sound construction. Striking the perfect balance, challenges both sides of my brain, forcing me to equally consider the "art for art sake" and "everything must have a purpose to exist" conversations in my head.
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
