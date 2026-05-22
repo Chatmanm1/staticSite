@@ -1,0 +1,56 @@
+
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+## Starting Mediums
+
+### Who
+Me
+### What
+Posting shorter blog posts, in a running style webpage style.
+### Where
+[matchamakes.net/mediums](https://matchamakes.net/mediums)
+
+### When
+When I want to, chill out man. 
+
+### Why
+While I do enjoy [Mastodon](https://mastodon.social/@matcha06), and post there on average 1.1 times a day, I'd like to use this site for more than just [long blog posts](https://matchamakes.net/blog), and [digital gardening. ](https://matchamakes.net/blogposts/shelf). I'd like a place to keep my medium thoughts. Perhaps more professional [than my favorite joke ever](https://mastodon.social/@matcha06/116608778857225395), but not long enough to warrant it's own url.
+
+As stated above you can find these posts at [matchamakes.net/mediums](https://matchamakes.net/mediums). A better url in on the docket eventually.
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
