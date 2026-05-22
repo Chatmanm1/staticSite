@@ -1,0 +1,63 @@
+
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+
+
+
+### Ease of knowing you can always get an answer
+#### 260522
+Some people know you can go to people and get an answer which is a luxury many don't have.  Having the audacity to think you can interrupt people  on your time, but not worrying about it because you have some sort of major sway in their lives.
+
+This comes from me having to answer many phone calls from individuals at work, and its obnoxious. Phone calls in general are awful since they are an immediate form of communication, which means it's great for emergencies. It also means that every potential call could be an emergency and it is integral to keep that line open. The thought of my spouse dying because I was on the phone for a supposedly important call haunts me every time I see an unknown number, or a particularly lengthy conversationalist pop up on caller ID.
+
+Individuals who abuse this immediate and high bandwidth channel are in short, rude, self indulgent, and inconsiderate. Expecting to be able to interrupt someone else, for the novelty of a phone call I hope dies out as we get further and further from the invention of the telephone.
+
+
+ can be illustrated by calling someones spouse, or parents but for everyone. 
+	- see your name pop up on caller ID. always get an answer. 
+	- a few  people who you would drop everything if you saw their name.
+	- contrast with the pressing nature of an unkown number vs a picture of you child. 
+	
+	
+	
+#mediums
+#blog 
+#rant
+
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
