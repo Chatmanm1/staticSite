@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Elapsed Counter</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .counter-container {
+            text-align: center;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .counter-display {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            color: #1a73e8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="counter-container">
+        <h2>Time Elapsed Since Target Date</h2>
+        <div id="counter" class="counter-display">Calculating...</div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Define the target historical date here (Format: YYYY-MM-DDTHH:MM:SS)
+            const targetDate = new Date('2026-05-028T00:00:00');
+
+            function updateCounter() {
+                const now = new Date();
+                const differenceInMs = now - targetDate;
+
+                if (differenceInMs < 0) {
+                    document.getElementById('counter').textContent = "Target date is in the future.";
+                    return;
+                }
+
+                // Mathematical conversion calculations
+                const msInSecond = 1000;
+                const msInMinute = msInSecond * 60;
+                const msInHour = msInMinute * 60;
+                const msInDay = msInHour * 24;
+
+                const days = Math.floor(differenceInMs / msInDay);
+                const hours = Math.floor((differenceInMs % msInDay) / msInHour);
+                const minutes = Math.floor((differenceInMs % msInHour) / msInMinute);
+                const seconds = Math.floor((differenceInMs % msInMinute) / msInSecond);
+
+                // Update the DOM text content
+                document.getElementById('counter').textContent = 
+                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+
+            // Run initial execution on load
+            updateCounter();
+
+            // Execute the calculation every 1000 milliseconds (1 second)
+            setInterval(updateCounter, 1000);
+        });
+    </script>
+<a href="webpagelink">Learn what this counter means.</a>
+</body>
+</html>
