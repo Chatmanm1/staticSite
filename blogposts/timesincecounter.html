@@ -21,9 +21,10 @@
 </head>
 <body>
 
-    <div class="counter-container">
-        <h2>Time Elapsed Since Target Date</h2>
-        <div id="counter" class="counter-display">Calculating...</div>
+  <div class="counter-container">
+        <div class="counter-label">Time Elapsed Since Target Date</div>
+        <!-- The target element is now defined as an h2 tag -->
+        <h2 id="counter">Calculating...</h2>
     </div>
 
     <script>
@@ -46,7 +47,7 @@
                 const msInHour = msInMinute * 60;
                 const msInDay = msInHour * 24;
 
-                const days = Math.floor(differenceInMs / msInDay);
+                const days = Math.floor(differenceInMs / msInDay);`
                 const hours = Math.floor((differenceInMs % msInDay) / msInHour);
                 const minutes = Math.floor((differenceInMs % msInHour) / msInMinute);
                 const seconds = Math.floor((differenceInMs % msInMinute) / msInSecond);
@@ -63,6 +64,6 @@
             setInterval(updateCounter, 1000);
         });
     </script>
-<a href="webpagelink">Learn what this counter means.</a>
+<a href="https://matchamakes.net/blogposts/timesincecounterabout.html">Learn what this counter means.</a>
 </body>
 </html>
