@@ -21,7 +21,7 @@
 </head>
 <body>
 
-  <div class="counter-container">
+    <div class="counter-container">
         <div class="counter-label">Time Elapsed Since Target Date</div>
         <!-- The target element is now defined as an h2 tag -->
         <h2 id="counter">Calculating...</h2>
@@ -30,7 +30,7 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             // Define the target historical date here (Format: YYYY-MM-DDTHH:MM:SS)
-            const targetDate = new Date('2026-05-28T00:00:00');
+            const targetDate = new Date('2026-05-27T00:00:00');
 
             function updateCounter() {
                 const now = new Date();
@@ -41,29 +41,24 @@
                     return;
                 }
 
-                // Mathematical conversion calculations
                 const msInSecond = 1000;
                 const msInMinute = msInSecond * 60;
                 const msInHour = msInMinute * 60;
                 const msInDay = msInHour * 24;
 
-                const days = Math.floor(differenceInMs / msInDay);`
+                const days = Math.floor(differenceInMs / msInDay);
                 const hours = Math.floor((differenceInMs % msInDay) / msInHour);
                 const minutes = Math.floor((differenceInMs % msInHour) / msInMinute);
                 const seconds = Math.floor((differenceInMs % msInMinute) / msInSecond);
 
-                // Update the DOM text content
                 document.getElementById('counter').textContent = 
                     `${days}d ${hours}h ${minutes}m ${seconds}s`;
             }
 
-            // Run initial execution on load
             updateCounter();
-
-            // Execute the calculation every 1000 milliseconds (1 second)
             setInterval(updateCounter, 1000);
         });
     </script>
-<a href="https://matchamakes.net/blogposts/timesincecounterabout.html">Learn what this counter means.</a>
+
 </body>
 </html>
