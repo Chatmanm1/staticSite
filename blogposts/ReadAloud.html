@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Text Reader</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            background: #f0f0f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        select, button {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #007aff;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:active {
+            background: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Selection Reader</h2>
+        <textarea id="text-input" placeholder="Type or paste text here. Highlight specific text to read only the selection."></textarea>
+        <select id="voice-select"></select>
+        <button id="speak-button">Read Text</button>
+    </div>
+
+    <script>
+        const textInput = document.getElementById('text-input');
+        const voiceSelect = document.getElementById('voice-select');
+        const speakButton = document.getElementById('speak-button');
+        let voices = [];
+
+        function loadVoices() {
+            voices = window.speechSynthesis.getVoices();
+            voiceSelect.innerHTML = '';
+            
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.value = index;
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        loadVoices();
+        
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        speakButton.addEventListener('click', () => {
+            window.speechSynthesis.cancel();
+            
+            let textToRead = textInput.value;
+            const start = textInput.selectionStart;
+            const end = textInput.selectionEnd;
+            
+            if (start !== end) {
+                textToRead = textInput.value.substring(start, end);
+            }
+
+            if (!textToRead.trim()) return;
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            const selectedIndex = voiceSelect.value;
+            
+            if (voices[selectedIndex]) {
+                utterance.voice = voices[selectedIndex];
+            }
+            
+            window.speechSynthesis.speak(utterance);
+        });
+    </script>
+</body>
+</html>
