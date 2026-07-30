@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoppiceRef - Visual Thought & Reference Canvas</title>
+    <title>Canvas- Visual Thought & Reference Canvas</title>
     <style>
         :root {
             --bg-color: #1a1a1e;
@@ -12,8 +12,8 @@
             --panel-bg: #2a2a32;
             --text-color: #e0e0e6;
             --text-muted: #9090a0;
-            --accent-color: #6366f1;
-            --accent-hover: #4f46e5;
+            --accent-color: #69ad45;
+            --accent-hover: #dde3cf;
             --border-color: #383844;
             --card-bg: #25252e;
             --card-header: #2e2e3a;
@@ -566,7 +566,7 @@
     <header>
         <div class="logo">
             <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            <span>CoppiceRef</span>
+            <span>Canvas</span>
         </div>
 
         <div class="toolbar">
@@ -1134,7 +1134,7 @@
             }
 
             let lines = [];
-            lines.push("# CoppiceRef Canvas Export");
+            lines.push("# Canvas Canvas Export");
             lines.push(`*Exported on: ${new Date().toLocaleString()}*\n`);
 
             lines.push("## Table of Contents");
@@ -1171,7 +1171,7 @@
             const blob = new Blob([lines.join('\n')], { type: 'text/markdown' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `coppiceref_export_${Date.now()}.md`;
+            a.download = `Canvas_export_${Date.now()}.md`;
             a.click();
         }
 
@@ -1260,7 +1260,7 @@
         function triggerPngDownload(canvas) {
             const a = document.createElement('a');
             a.href = canvas.toDataURL('image/png');
-            a.download = `coppiceref_canvas_${Date.now()}.png`;
+            a.download = `Canvas_canvas_${Date.now()}.png`;
             a.click();
         }
 
@@ -1449,7 +1449,7 @@
         function saveProjectFile() {
             const payload = {
                 version: "1.0",
-                app: "CoppiceRef",
+                app: "Canvas",
                 panX: state.panX,
                 panY: state.panY,
                 scale: state.scale,
@@ -1464,7 +1464,7 @@
         }
 
         function createSampleData() {
-            const c1 = createCard('text', 'Project Overview', 'Welcome to CoppiceRef HTML App!\\n\\n• Paste images directly with Ctrl+V\\n• Link thoughts using [[Page Title]]\\n• Export to Markdown (.md) or Image (.png)', 100, 120, 320, 180);
+            const c1 = createCard('text', 'Project Overview', 'Welcome to Canvas HTML App!\\n\\n• Paste images directly with Ctrl+V\\n• Link thoughts using [[Page Title]]\\n• Export to Markdown (.md) or Image (.png)', 100, 120, 320, 180);
             const c2 = createCard('text', 'Woodworking Design', 'Designing Edo Sashimono joints for handmade wooden pen rests and workshop accessories.\\n\\nRequires high precision joinery and reference boards.', 500, 100, 320, 170);
             const c3 = createCard('image', 'Reference Photos', 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80', 500, 310, 340, 240);
 
