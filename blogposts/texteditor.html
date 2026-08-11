@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Text Editor</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            padding: 20px; 
+            background-color: #121212; 
+            color: #e0e0e0;
+        }
+        h2 { 
+            font-size: 20px; 
+            color: #ffffff; 
+        }
+        input[type="file"] { 
+            margin-bottom: 15px; 
+            color: #e0e0e0;
+        }
+        textarea { 
+            width: 100%; 
+            height: 60vh; 
+            padding: 10px; 
+            box-sizing: border-box; 
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border: 1px solid #333; 
+            border-radius: 8px; 
+            font-size: 16px; 
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #007aff;
+        }
+        button { 
+            margin-top: 15px; 
+            padding: 12px 20px; 
+            background-color: #007aff; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            width: 100%; 
+        }
+        button:active { 
+            background-color: #005bb5; 
+        }
+    </style>
+</head>
+<body>
+    <h2>Text File Editor</h2>
+    
+    <input type="file" id="fileInput" accept=".txt, text/plain">
+    <textarea id="editor" placeholder="Select a text file to edit..."></textarea>
+    <button id="saveBtn">Save Document</button>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const editor = document.getElementById('editor');
+        const saveBtn = document.getElementById('saveBtn');
+        let currentFileName = 'edited_document-1.txt';
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+            
+            const originalName = file.name;
+            const dotIndex = originalName.lastIndexOf('.');
+            
+            if (dotIndex !== -1 && dotIndex !== 0) {
+                const namePart = originalName.substring(0, dotIndex);
+                const extensionPart = originalName.substring(dotIndex);
+                currentFileName = namePart + '-1' + extensionPart;
+            } else {
+                currentFileName = originalName + '-1';
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                editor.value = e.target.result;
+            };
+            
+            reader.readAsText(file);
+        });
+
+        saveBtn.addEventListener('click', function() {
+            const textContent = editor.value;
+            const blobObject = new Blob([textContent], { type: 'text/plain' });
+            const objectURL = URL.createObjectURL(blobObject);
+            
+            const downloadLink = document.createElement('a');
+            downloadLink.href = objectURL;
+            downloadLink.download = currentFileName;
+            
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            
+            document.body.removeChild(downloadLink);
+            URL.revokeObjectURL(objectURL);
+        });
+    </script>
+</body>
+</html>
