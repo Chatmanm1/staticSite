@@ -1,85 +1,188 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Distraction-free Video</title>
   <link rel="icon" type="image/png" href="https://matchamakes.net/images/no distractions icon.png" sizes="32x32">
   <link rel="apple-touch-icon" href="https://matchamakes.net/images/no distractions icon.png">
   <link rel="shortcut icon" href="https://matchamakes.net/images/no distractions icon.png">
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --panel: #0f0f0f;
+      --muted: #999;
+      --accent: #e6e6e6;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--accent);
+      font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .wrap {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      gap: 18px;
+      box-sizing: border-box;
+    }
+    .panel {
+      width: 100%;
+      max-width: 920px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      box-sizing: border-box;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 12px;
+    }
+    input[type="url"] {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--panel);
+      color: var(--accent);
+      outline: none;
+      font-size: 15px;
+    }
+    input[type="url"]:focus {
+      border-color: rgba(255,255,255,0.2);
+    }
+    button {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      background: #1f1f1f;
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #2a2a2a;
+    }
+    .opts {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+    label {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      cursor: pointer;
+    }
+    .queue-section {
+      margin-top: 20px;
+    }
+    .queue-section h4 {
+      margin: 0 0 8px 0;
+      font-size: 15px;
+    }
+    .queue-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .player-wrap {
+      margin-top: 14px;
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #000;
+    }
+    .ui-hidden .panel {
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .mini-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-left: auto;
+    }
+    .floating {
+      position: fixed;
+      right: 16px;
+      top: 16px;
+      background: rgba(0,0,0,0.45);
+      padding: 8px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,0.03);
+      z-index: 10;
+    }
+    .error {
+      color: #ff6b6b;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+    }
+    @media (max-width: 560px) {
+      .wrap, .panel { padding: 12px; }
+      .opts { flex-direction: column; align-items: flex-start; }
+      .opts label { margin-left: 0 !important; }
+    }
+  </style>
   <script>
-    // If you don't have /partials/footer.html locally, this will 404 harmlessly.
     fetch('/partials/footer.html')
       .then(res => res.text())
-      .then(html => document.getElementById('footer').innerHTML = html)
-      .catch(()=>{});
+      .then(html => {
+        const footerEl = document.getElementById('footer');
+        if (footerEl) footerEl.innerHTML = html;
+      })
+      .catch(() => {});
   </script>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Distraction-free Video</title>
-<style>
-  :root{
-    --bg:#0b0b0b;
-    --panel:#0f0f0f;
-    --muted:#999;
-    --accent:#e6e6e6;
-  }
-  html,body{height:100%;margin:0;background:var(--bg);color:var(--accent);font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial}
-  .wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;gap:18px}
-  .panel{
-    width:100%;
-    max-width:920px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    border-radius:12px;
-    padding:16px;
-    box-shadow:0 8px 30px rgba(0,0,0,0.6);
-    backdrop-filter: blur(6px);
-  }
-  .controls{display:flex;gap:8px;align-items:center}
-  input[type="url"]{
-    flex:1;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:var(--panel);color:var(--accent);outline:none;font-size:15px;
-  }
-  button{
-    padding:10px 14px;border-radius:8px;border:none;background:#1f1f1f;color:var(--accent);cursor:pointer;font-weight:600;
-  }
-  .opts{display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--muted)}
-  label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
-  .player-wrap{
-    margin-top:14px;
-    position:relative;
-    width:100%;
-    padding-top:56.25%;
-    background:#000;
-    border-radius:10px;
-    overflow:hidden;
-  }
-  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
-  .ui-hidden .panel{opacity:0;pointer-events:none;height:0;padding:0;margin:0}
-  .hint{font-size:12px;color:var(--muted);margin-top:8px}
-  .mini-actions{display:flex;gap:8px;align-items:center;margin-left:auto}
-  .floating{
-    position:fixed;right:16px;top:16px;background:rgba(0,0,0,0.45);padding:8px;border-radius:8px;color:var(--muted);font-size:13px;border:1px solid rgba(255,255,255,0.03)
-  }
-  .error{color:#ff6b6b;font-size:13px;margin-top:8px}
-  .queue-section{margin-top:20px;}
-  .queue-section h4{margin-bottom:8px;font-size:15px;}
-  .queue-inputs{display:flex;flex-direction:column;gap:6px;}
-  @media (max-width:560px){
-    .wrap{padding:12px}
-    .panel{padding:12px}
-  }
-</style>
 </head>
 <body>
   <div class="wrap" id="root">
     <div class="panel" id="panel">
       <div style="display:flex;align-items:center;gap:8px">
         <div style="font-weight:700;font-size:16px">Distraction-free Video</div>
-        <div class="mini-actions" style="margin-left:auto">
-          <button id="toggleUI" title="Toggle controls (press 'i')">Hide UI</button>
-          <button id="fullscreenBtn" title="Fullscreen player (press 'f')">Fullscreen</button>
+        <div class="mini-actions">
+          <button id="toggleUI" aria-label="Toggle user interface">Hide UI</button>
+          <button id="fullscreenBtn" aria-label="Toggle fullscreen">Fullscreen</button>
         </div>
       </div>
 
-      <div style="margin-top:12px" class="controls">
-        <input id="urlInput" type="url" placeholder="Paste YouTube or Twitch VOD URL">
+      <div class="controls">
+        <input id="urlInput" type="url" placeholder="Paste YouTube or Twitch VOD URL" aria-label="Video URL">
         <button id="playBtn">Play</button>
       </div>
 
@@ -92,236 +195,234 @@
 
       <div class="queue-section">
         <h4>Up Next</h4>
-        <div class="queue-inputs">
-          <input type="url" id="queue1" class="queue-input" placeholder="Up Next #1">
-          <input type="url" id="queue2" class="queue-input" placeholder="Up Next #2">
-          <input type="url" id="queue3" class="queue-input" placeholder="Up Next #3">
-          <input type="url" id="queue4" class="queue-input" placeholder="Up Next #4">
-          <input type="url" id="queue5" class="queue-input" placeholder="Up Next #5">
+        <div class="queue-inputs" id="queueContainer">
+          <input type="url" class="queue-input" placeholder="Up Next #1" aria-label="Queue slot 1">
+          <input type="url" class="queue-input" placeholder="Up Next #2" aria-label="Queue slot 2">
+          <input type="url" class="queue-input" placeholder="Up Next #3" aria-label="Queue slot 3">
+          <input type="url" class="queue-input" placeholder="Up Next #4" aria-label="Queue slot 4">
+          <input type="url" class="queue-input" placeholder="Up Next #5" aria-label="Queue slot 5">
         </div>
         <button id="playNextBtn" style="margin-top:10px;">Play Next</button>
       </div>
 
-     <div class="hint">After you click Play the controls will fade. Press <strong>0</strong> to toggle the UI back and forth, <strong>9</strong> to fullscreen, <strong>Esc</strong> to exit fullscreen.</div>
+      <div class="hint">Press <strong>0</strong> to toggle the UI, <strong>9</strong> to fullscreen, <strong>Esc</strong> to exit fullscreen.</div>
+      <div id="error" class="error" role="alert"></div>
 
-      <div id="error" class="error" role="alert" style="display:none"></div>
-
-      <div class="player-wrap" id="playerWrap" aria-live="polite" style="margin-top:12px">
+      <div class="player-wrap" id="playerWrap" aria-live="polite">
         <div id="placeholder" style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted)">No video loaded</div>
       </div>
+      <h5 style="color:var(--muted); font-size: 11px; margin-top: 12px; font-weight: normal;">updated 251103 - added twitch vod support + queue system.</h5>
     </div>
-
     <div class="floating" id="floating" style="display:none">UI hidden — press 0 to show</div>
   </div>
+  <div id="footer"></div>
 
-<script>
-function extractVideoInfo(url) {
-  if (!url) return null;
-  try {
-    const u = new URL(url.includes('://') ? url : 'https://' + url);
-    const host = u.hostname.replace('www.','').toLowerCase();
+  <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+  <script>
+    function extractVideoInfo(url) {
+      if (!url) return null;
+      try {
+        const u = new URL(url.includes('://') ? url : 'https://' + url);
+        const host = u.hostname.replace('www.','').toLowerCase();
 
-    if (/^[A-Za-z0-9_-]{11}$/.test(url.trim())) {
-      return { type: 'youtube', id: url.trim() };
-    }
-    if (host === 'youtu.be') {
-      const id = u.pathname.slice(1).split(/[\/?&]/)[0];
-      return id ? { type: 'youtube', id } : null;
-    }
-    if (host.endsWith('youtube.com') || host.endsWith('youtube-nocookie.com')) {
-      const v = u.searchParams.get('v');
-      if (v && /^[A-Za-z0-9_-]{11}$/.test(v)) return { type: 'youtube', id: v };
-      const pathParts = u.pathname.split('/');
-      const embedIndex = pathParts.indexOf('embed');
-      if (embedIndex !== -1 && pathParts[embedIndex+1]) {
-        const id = pathParts[embedIndex+1].split(/[\/?&]/)[0];
-        if (/^[A-Za-z0-9_-]{11}$/.test(id)) return { type: 'youtube', id };
+        if (/^[A-Za-z0-9_-]{11}$/.test(url.trim())) {
+          return { type: 'youtube', id: url.trim() };
+        }
+        if (host === 'youtu.be') {
+          const id = u.pathname.slice(1).split(/[\/?&]/)[0];
+          return id ? { type: 'youtube', id } : null;
+        }
+        if (host.endsWith('youtube.com') || host.endsWith('youtube-nocookie.com')) {
+          const v = u.searchParams.get('v');
+          if (v && /^[A-Za-z0-9_-]{11}$/.test(v)) return { type: 'youtube', id: v };
+          const pathParts = u.pathname.split('/');
+          const embedIndex = pathParts.indexOf('embed');
+          if (embedIndex !== -1 && pathParts[embedIndex+1]) {
+            const id = pathParts[embedIndex+1].split(/[\/?&]/)[0];
+            if (/^[A-Za-z0-9_-]{11}$/.test(id)) return { type: 'youtube', id };
+          }
+          return null;
+        }
+
+        if (host.endsWith('twitch.tv')) {
+          const parts = u.pathname.split('/').filter(Boolean);
+          const idx = parts.indexOf('videos');
+          if (idx !== -1 && parts[idx+1]) {
+            return { type: 'twitch_vod', id: parts[idx+1] };
+          }
+          if (parts.length === 1) {
+            return { type: 'twitch_live', id: parts[0] };
+          }
+        }
+        return null;
+      } catch(e) {
+        return null;
       }
-      return null;
     }
 
-    if (host.endsWith('twitch.tv')) {
-      const parts = u.pathname.split('/').filter(Boolean);
-      const idx = parts.indexOf('videos');
-      if (idx !== -1 && parts[idx+1]) {
-        return { type: 'twitch_vod', id: parts[idx+1] };
+    function buildSrc(info, opts) {
+      const parent = window.location.hostname || 'localhost';
+
+      if (info.type === 'youtube') {
+        const domain = opts.privacy ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com';
+        const params = new URLSearchParams();
+        params.set('autoplay', opts.autoplay ? '1' : '0');
+        params.set('rel', '0');
+        params.set('modestbranding', '1');
+        params.set('playsinline', '1');
+        params.set('iv_load_policy', '3');
+        params.set('controls', opts.hideControls ? '0' : '1');
+        if (opts.loop) {
+          params.set('loop', '1');
+          params.set('playlist', info.id);
+        }
+        return `${domain}/embed/${info.id}?${params.toString()}`;
       }
-      if (parts.length === 1) {
-        return { type: 'twitch_live', id: parts[0] };
+
+      if (info.type === 'twitch_vod') {
+        return `https://player.twitch.tv/?video=${info.id}&parent=${parent}&autoplay=${opts.autoplay}`;
       }
-      return null;
+
+      if (info.type === 'twitch_live') {
+        return `https://player.twitch.tv/?channel=${info.id}&parent=${parent}&autoplay=${opts.autoplay}`;
+      }
+
+      return '';
     }
 
-    return null;
-  } catch(e) {
-    return null;
-  }
-}
-
-function buildSrc(info, opts) {
-  const parent = window.location.hostname;
-
-  if (info.type === 'youtube') {
-    const domain = opts.privacy ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com';
-    const params = new URLSearchParams();
-    params.set('autoplay', opts.autoplay ? '1' : '0');
-    params.set('rel', '0');
-    params.set('modestbranding', '1');
-    params.set('playsinline', '1');
-    params.set('iv_load_policy', '3');
-    params.set('controls', opts.hideControls ? '0' : '1');
-    if (opts.loop) {
-      params.set('loop', '1');
-      params.set('playlist', info.id);
+    const errorEl = document.getElementById('error');
+    function showError(msg) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = msg;
     }
-    return `${domain}/embed/${info.id}?${params.toString()}`;
-  }
+    function clearError() {
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+    }
 
-  if (info.type === 'twitch_vod') {
-    return `https://player.twitch.tv/?video=${info.id}&parent=${parent}&autoplay=${opts.autoplay ? 'true' : 'false'}`;
-  }
+    function loadVideo(info) {
+      clearError();
+      const playerWrap = document.getElementById('playerWrap');
+      const placeholder = document.getElementById('placeholder');
+      const old = playerWrap.querySelector('iframe');
+      if (old) old.remove();
+      placeholder.style.display = 'none';
 
-  if (info.type === 'twitch_live') {
-    return `https://player.twitch.tv/?channel=${info.id}&parent=${parent}&autoplay=${opts.autoplay ? 'true' : 'false'}`;
-  }
+      const autoplay = document.getElementById('autoplay').checked;
+      const hideControls = document.getElementById('hideControls').checked;
+      const privacy = document.getElementById('privacy').checked;
+      const loop = document.getElementById('loop').checked;
 
-  return '';
-}
+      const src = buildSrc(info, { autoplay, hideControls, privacy, loop });
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.title = info.type.startsWith('twitch') ? 'Twitch player' : 'YouTube player';
+      playerWrap.appendChild(iframe);
 
-function showError(msg){
-  errorEl.style.display = 'block';
-  errorEl.textContent = msg;
-}
-function clearError(){
-  errorEl.style.display = 'none';
-  errorEl.textContent = '';
-}
+      setTimeout(() => {
+        document.body.classList.add('ui-hidden');
+        document.getElementById('floating').style.display = 'block';
+      }, 350);
+    }
 
-function loadVideo(info){
-  clearError();
-  const old = playerWrap.querySelector('iframe');
-  if (old) old.remove();
-  placeholder.style.display = 'none';
-  const autoplay = document.getElementById('autoplay').checked;
-  const hideControls = document.getElementById('hideControls').checked;
-  const privacy = document.getElementById('privacy').checked;
-  const loop = document.getElementById('loop').checked;
-  const src = buildSrc(info, {autoplay, hideControls, privacy, loop});
-  const iframe = document.createElement('iframe');
-  iframe.src = src;
-  iframe.allow = 'autoplay; fullscreen; picture-in-picture';
-  iframe.allowFullscreen = true;
-  iframe.title = info.type.startsWith('twitch') ? 'Twitch player' : 'YouTube player';
-  playerWrap.appendChild(iframe);
-  setTimeout(() => {
-    document.body.classList.add('ui-hidden');
-    floating.style.display = 'block';
-  }, 350);
-}
-
-const playBtn = document.getElementById('playBtn');
-const playNextBtn = document.getElementById('playNextBtn');
-const urlInput = document.getElementById('urlInput');
-const queue1 = document.getElementById('queue1');
-const queue2 = document.getElementById('queue2');
-const queue3 = document.getElementById('queue3');
-const queue4 = document.getElementById('queue4');
-const queue5 = document.getElementById('queue5');
-const playerWrap = document.getElementById('playerWrap');
-const placeholder = document.getElementById('placeholder');
-const errorEl = document.getElementById('error');
-const panel = document.getElementById('panel');
-const floating = document.getElementById('floating');
-const toggleUI = document.getElementById('toggleUI');
-const fullscreenBtn = document.getElementById('fullscreenBtn');
-
-playBtn.addEventListener('click', ()=>{
-  clearError();
-  const url = urlInput.value.trim();
-  const info = extractVideoInfo(url);
-  if (!info){
-    showError('Invalid YouTube or Twitch URL.');
-    return;
-  }
-  loadVideo(info);
-});
-
-playNextBtn.addEventListener('click', ()=>{
-  clearError();
-  const queueInputs = [queue1, queue2, queue3, queue4, queue5];
-  for (let i = 0; i < queueInputs.length; i++) {
-    const url = queueInputs[i].value.trim();
-    if (url) {
+    document.getElementById('playBtn').addEventListener('click', () => {
+      clearError();
+      const urlInput = document.getElementById('urlInput');
+      const url = urlInput.value.trim();
       const info = extractVideoInfo(url);
-      if (info) {
-        loadVideo(info);
-        queueInputs[i].value = '';
-        break;
+      if (!info) {
+        showError('Invalid YouTube or Twitch URL.');
+        return;
+      }
+      loadVideo(info);
+    });
+
+    document.getElementById('playNextBtn').addEventListener('click', () => {
+      clearError();
+      const queueInputs = Array.from(document.querySelectorAll('.queue-input'));
+      let played = false;
+
+      for (let i = 0; i < queueInputs.length; i++) {
+        const url = queueInputs[i].value.trim();
+        if (url && !played) {
+          const info = extractVideoInfo(url);
+          if (info) {
+            loadVideo(info);
+            played = true;
+            queueInputs[i].value = '';
+          }
+        }
+      }
+
+      if (played) {
+        const values = queueInputs.map(input => input.value.trim()).filter(Boolean);
+        queueInputs.forEach((input, index) => {
+          input.value = values[index] || '';
+        });
+      }
+    });
+
+    const urlInput = document.getElementById('urlInput');
+    urlInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('playBtn').click();
+      }
+    });
+
+    document.addEventListener('paste', (ev) => {
+      const active = document.activeElement;
+      const text = (ev.clipboardData || window.clipboardData).getData('text');
+      if (active === urlInput && text && extractVideoInfo(text)) {
+        ev.preventDefault();
+        urlInput.value = text;
+        clearError();
+      }
+    });
+
+    function toggleUIVisibility(force) {
+      const hidden = document.body.classList.contains('ui-hidden');
+      const willHide = typeof force === 'boolean' ? force : !hidden;
+      const floating = document.getElementById('floating');
+      const toggleUI = document.getElementById('toggleUI');
+
+      if (willHide) {
+        document.body.classList.add('ui-hidden');
+        floating.style.display = 'block';
+        toggleUI.textContent = 'Show UI';
+      } else {
+        document.body.classList.remove('ui-hidden');
+        floating.style.display = 'none';
+        toggleUI.textContent = 'Hide UI';
       }
     }
-  }
-});
 
-urlInput.addEventListener('keydown', (e)=>{
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    playBtn.click();
-  }
-});
+    document.getElementById('toggleUI').addEventListener('click', () => toggleUIVisibility());
 
-/*
-  Only intercept paste when urlInput has focus.
-  This fixes the problem where paste into Up Next boxes was blocked.
-*/
-document.addEventListener('paste', (ev)=>{
-  const active = document.activeElement;
-  const text = (ev.clipboardData || window.clipboardData).getData('text');
-  if (active === urlInput && text && extractVideoInfo(text)){
-    ev.preventDefault();
-    urlInput.value = text;
-    clearError();
-  }
-  // otherwise do nothing and allow normal paste into queue inputs or other fields
-});
+    document.getElementById('fullscreenBtn').addEventListener('click', async () => {
+      const playerWrap = document.getElementById('playerWrap');
+      const iframe = playerWrap.querySelector('iframe');
+      if (!iframe) return;
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+        } else {
+          await playerWrap.requestFullscreen();
+        }
+      } catch(e) {}
+    });
 
-function toggleUIVisibility(force){
-  const hidden = document.body.classList.contains('ui-hidden');
-  const willHide = typeof force === 'boolean' ? force : !hidden;
-  if (willHide){
-    document.body.classList.add('ui-hidden');
-    floating.style.display = 'block';
-    toggleUI.textContent = 'Show UI';
-  } else {
-    document.body.classList.remove('ui-hidden');
-    floating.style.display = 'none';
-    toggleUI.textContent = 'Hide UI';
-  }
-}
-toggleUI.addEventListener('click', ()=>toggleUIVisibility());
+    document.addEventListener('keydown', (e) => {
+      const activeTag = document.activeElement.tagName.toLowerCase();
+      if (activeTag === 'input' || activeTag === 'textarea') return;
 
-fullscreenBtn.addEventListener('click', async ()=>{
-  const iframe = playerWrap.querySelector('iframe');
-  if (!iframe) return;
-  try{
-    if (document.fullscreenElement) {
-      await document.exitFullscreen();
-    } else {
-      await playerWrap.requestFullscreen();
-    }
-  }catch(e){}
-});
+      if (e.key === '0') toggleUIVisibility();
+      if (e.key === '9') document.getElementById('fullscreenBtn').click();
+    });
 
-document.addEventListener('keydown', (e)=>{
-  if (e.key === '0') toggleUIVisibility();
-  if (e.key === '9') fullscreenBtn.click();
-});
-
-window.addEventListener('load', ()=>{ urlInput.focus(); });
-</script>
-
-<h5> updated 251103 - added twitch vod support + queue system. </h5>
-
-<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    window.addEventListener('load', () => { urlInput.focus(); });
+  </script>
 </body>
-<div id="footer"></div>
 </html>
