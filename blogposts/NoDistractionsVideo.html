@@ -193,7 +193,18 @@
         <label style="margin-left:auto"><input id="loop" type="checkbox"> Loop</label>
       </div>
 
-    
+      <div class="queue-section">
+        <h4>Up Next</h4>
+        <div class="queue-inputs" id="queueContainer">
+          <input type="url" class="queue-input" placeholder="Up Next #1" aria-label="Queue slot 1">
+          <input type="url" class="queue-input" placeholder="Up Next #2" aria-label="Queue slot 2">
+          <input type="url" class="queue-input" placeholder="Up Next #3" aria-label="Queue slot 3">
+          <input type="url" class="queue-input" placeholder="Up Next #4" aria-label="Queue slot 4">
+          <input type="url" class="queue-input" placeholder="Up Next #5" aria-label="Queue slot 5">
+        </div>
+        <button id="playNextBtn" style="margin-top:10px;">Play Next</button>
+      </div>
+
       <div class="hint">Press <strong>0</strong> to toggle the UI, <strong>9</strong> to fullscreen, <strong>Esc</strong> to exit fullscreen.</div>
       <div id="error" class="error" role="alert"></div>
 
@@ -412,23 +423,6 @@
     });
 
     window.addEventListener('load', () => { urlInput.focus(); });
-     <div class="queue-section">
-        <h4>Up Next</h4>
-        <div class="queue-inputs" id="queueContainer">
-          <input type="url" class="queue-input" placeholder="Up Next #1" aria-label="Queue slot 1">
-          <input type="url" class="queue-input" placeholder="Up Next #2" aria-label="Queue slot 2">
-          <input type="url" class="queue-input" placeholder="Up Next #3" aria-label="Queue slot 3">
-          <input type="url" class="queue-input" placeholder="Up Next #4" aria-label="Queue slot 4">
-          <input type="url" class="queue-input" placeholder="Up Next #5" aria-label="Queue slot 5">
-        </div>
-        <button id="playNextBtn" style="margin-top:10px;">Play Next</button>
-      </div>
   </script>
-
-   
-
-  <h5> updated 251103 - added twitch vod support + queue system. </h5>
-    <h5> updated 260818 - fixed autoplay, and removed auto typing into boxes. </h5>
-  <script async="" src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 </body>
 </html>
