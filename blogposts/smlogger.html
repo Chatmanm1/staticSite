@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Logger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .notification {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Social Media Logger</h2>
+    <div class="form-group">
+        <label for="post_link">Post Link:</label>
+        <input type="text" id="post_link" autofocus>
+    </div>
+    <div class="form-group">
+        <label for="platform">Platform:</label>
+        <input type="text" id="platform">
+    </div>
+    <div class="form-group">
+        <label for="user_poster">User (Poster):</label>
+        <input type="text" id="user_poster">
+    </div>
+    <div class="form-group">
+        <label for="post_type">Post Type:</label>
+        <input type="text" id="post_type">
+    </div>
+    <div class="form-group">
+        <label for="tags">Tags (comma-separated):</label>
+        <input type="text" id="tags">
+    </div>
+    <div class="form-group">
+        <label for="date_seen">Date Seen (YYMMDD):</label>
+        <input type="text" id="date_seen">
+    </div>
+    <div class="form-group">
+        <label for="time_seen">Time Seen (HH:MM):</label>
+        <input type="text" id="time_seen">
+    </div>
+    
+    <button id="copy_btn">Copy to Clipboard</button>
+    <div id="notification" class="notification">Data copied to clipboard!</div>
+</div>
+
+<script>
+    function setDateTime() {
+        const now = new Date();
+        const yy = String(now.getFullYear()).slice(-2);
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        
+        const hh = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+
+        document.getElementById('date_seen').value = yy + mm + dd;
+        document.getElementById('time_seen').value = hh + ':' + min;
+    }
+
+    document.getElementById('post_link').addEventListener('input', function() {
+        let urlStr = this.value.trim();
+        if (!urlStr) return;
+        
+        if (!urlStr.startsWith('http://') && !urlStr.startsWith('https://')) {
+            urlStr = 'http://' + urlStr;
+        }
+        
+        try {
+            const urlObj = new URL(urlStr);
+            let domain = urlObj.hostname.replace('www.', '').split('.')[0];
+            if (domain) {
+                domain = domain.charAt(0).toUpperCase() + domain.slice(1);
+                document.getElementById('platform').value = domain;
+            }
+        } catch (e) {
+        }
+    });
+
+    function formatTags(rawTags) {
+        if (!rawTags.trim()) return "";
+        let tagList = rawTags.split(',').map(t => t.trim()).filter(t => t);
+        let formatted = tagList.map(t => t.startsWith('#') ? t : '#' + t);
+        return formatted.join(', ');
+    }
+
+    function processAndCopy() {
+        let link = document.getElementById('post_link').value.trim();
+        let platform = document.getElementById('platform').value.trim();
+        let user = document.getElementById('user_poster').value.trim();
+        let postType = document.getElementById('post_type').value.trim();
+        let rawTags = document.getElementById('tags').value.trim();
+        let dateSeen = document.getElementById('date_seen').value.trim();
+        let timeSeen = document.getElementById('time_seen').value.trim();
+
+        if (!link) {
+            alert("The Post Link field is required.");
+            document.getElementById('post_link').focus();
+            return;
+        }
+
+        const formattedTags = formatTags(rawTags);
+        
+        link = link.replace(/\|/g, '');
+        platform = platform.replace(/\|/g, '');
+        user = user.replace(/\|/g, '');
+        postType = postType.replace(/\|/g, '');
+        const safeTags = formattedTags.replace(/\|/g, '');
+        
+        const outputString = `| ${link} | ${platform} | ${user} | ${postType} | ${safeTags} | ${dateSeen} | ${timeSeen} |`;
+
+        navigator.clipboard.writeText(outputString).then(() => {
+            showNotification();
+            resetForm();
+        }).catch(err => {
+            alert("Failed to copy text: " + err);
+        });
+    }
+
+    function resetForm() {
+        document.getElementById('post_link').value = '';
+        document.getElementById('platform').value = '';
+        document.getElementById('user_poster').value = '';
+        document.getElementById('post_type').value = '';
+        document.getElementById('tags').value = '';
+        setDateTime();
+        document.getElementById('post_link').focus();
+    }
+
+    function showNotification() {
+        const notif = document.getElementById('notification');
+        notif.style.display = 'block';
+        setTimeout(() => {
+            notif.style.display = 'none';
+        }, 2000);
+    }
+
+    document.getElementById('copy_btn').addEventListener('click', processAndCopy);
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            processAndCopy();
+        }
+    });
+
+    window.onload = function() {
+        setDateTime();
+        document.getElementById('post_link').focus();
+    };
+</script>
+</body>
+</html>
