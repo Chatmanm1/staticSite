@@ -1,0 +1,120 @@
+
+<html lang="en">
+  <div id="header"></div>
+ <script>
+    // Load header
+    fetch('/partials/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header').innerHTML = html);
+
+    // Load footer
+    fetch('/partials/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer').innerHTML = html);
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://matchamakes.net/style.css" />
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+ <div id="markdown-content" style="display:none;">
+### Intro/background 
+I felt inspired to make things and then sell them in order to:
+1. Generate money for non-profits,
+2. Make things for a community that has given me so much joy in the last 10 years. 
+3. Challenge myself with something new. 
+
+
+
+### Idea
+Heavily inspired by [StationeryStack](https://stationerystack.com/), I thought I could make some pen rests and trays that will fit one or two pens and sit on someone's desk. I can't say it was a complete failure. I did manage to generate a few items that would pass a quality check for sale. From the beginning I placed strict rules on how I would make these items, and the guiding principles of Making4Good. 
+
+- 100% Handmade.
+- 100% Eco-Friendly.
+- 100% Reclaimed.
+- 100% of Profit Donated to Charities.
+
+At the time I did not really understand the amount of limitation and difficulty those principles would put on this endeavor, and there were many more complications than I originally anticipated. 
+
+
+### Execution 
+I started with the plan of making 3 types of items for sale. I would make pen rests, 5 slot pen trays, and a pen block. On the face of it, they were all very simple builds and things I've actually made in the past, or at least something extremely similar in the case of the pen block.
+
+The pen rests I made from a couple boards of an old pallet I found on the side of the road, and made a router table similar to that described on [Finewoodworking](https://www.finewoodworking.com/2023/02/23/easy-to-build-router-table). Since I only had a palm router, I made multiple shallow passes extending the bit a couple millimeters each time. It is here that I learned just how much I detest routers.
+
+In order to make the 5 flutes in the pen trays I would need to adjust the table and make increasingly deep cuts while lining up perfectly. Such was not the case, and the board I used, also from the same pallet as the pen rests, was filled with knots and odd grain so the router got away from me multiple times. These 'router runaways' weren't bad enough to be dangerous, but it meant that that bit of the board couldn't be used for anything I was going to sell. When using power tools things go wrong quickly and often have catastrophic results. 
+
+Since my material was all salvaged from the side of the road, it's actually very limited. I could easily go buy more to fix the mistakes, but everything has to be reclaimed, so I'd have to find another pallet suitable. The specific pallet I found had 3/4" boards that were 5.5 inches across, so not a common, or repeated find. This made the number of trays I could sell go from 7 down to 5. Not the end of the world, but a bummer.
+
+Breaking out the table saw, I cut the pen rests, pen tray bottoms and sides, and pen blocks to length. I recall that being an extremely hot and sweaty task as it was 95 degrees outside and very humid. It could have been the sun in my eyes, the too hot to touch table saw table, or, the sketchy crosscut sled, but none of my pieces ended up exactly the same size. I was okay with that; not everything has to be uniform especially with handmade goods.
+
+After using 2 power tools in the span of a week, I was ready to get back to some much quieter and hand tool woodworking. I had produced stock for 40 blocks with grooves in them for pen rests. Enough stock for 5 pen trays, and 4 pen blocks that I could sand, drill, and paint.
+
+How was I going to sell these? Good question. 2 months in I realized I would need to price and sell these at reasonable costs. So I broke out the spreadsheets and tried to figure out a price range that would work.
+
+Since there are many off-the-shelf online selling platforms that I've been advertised for years, I figured I'd go with one of those. That was, until I looked at the fees, they would be 2x more than i expected. So, I built my own using my limited knowledge of HTML/CSS coding and copy-pasting from the internet to make [the website](https://making4good.net). I then built a backend inventory tracking system and used Stripe to process credit card payments, all hosted on my home Raspberry Pi. Turns out going to engineering school was somewhat useful.
+
+The website itself is hosted on Netlify, which works great since I can just update it by dragging and dropping a folder of files, from my hard drive after making changes in VSCode.
+
+All that took about 10 hours of work in the beginning of July, while the physical work was progressing at a snail's pace.  At the beginning of August I had the website ready to go, but needed to finish up the painting and chamfering of the pen rests, and the complete assembling and making of the trays. With a busy work month ahead, and a couple of weekend family trips planned, I decided to ditch the pen blocks, as there were only going to be 4 and I didn't think I could get them completed.
+
+Instead of the blocks I'd make little worry "stones." They would be much easier to produce, and cheaper to ship allowing me to only have one size shipping box to purchase. Spoiler alert: I also ended up not completing these.
+
+Unfortunately I ran into issues cutting the dovetails on the trays, and realized that the time needed for each would be much over the allotted time in order to maintain profitability. I could raise the prices, but that felt disingenuous and non-competitive to sell something for more than $50 when other great options exist around that price point. Another option was to make the joints into miters, and run them on the table saw. I haven't fully ruled this out yet, but it's not something I would trust with the glue I was planning on using.
+
+Rice glue, my preferred glue, is derived from rice, water, and mashing them together. Yellow wood glue is a plastic, therefore not permitted. This was yet another issue, all Making4Good products must be eco-friendly. Polyurethane finishes leave a fantastic looking and feeling finish, but are a type of plastic, so it makes a natural product into an artificial one. Acrylic paints are also out. I debated this for a while since they are water soluble, but after looking into it more, milk paint wase a much better solution.
+
+The colors were an easy choice, the ones I already had from other projects. The issue is I rushed through the painting process and didn't do 2 thin coats, so there is uneven and unsightly splotching. So again rushing through a step caused me problems. After 4 months, I really only had about 10 pen rests I would consider selling. I managed to finish one pen tray, but the dovetails had such big gaps I claimed it as my own, and [tested a burned finish instead.](https://www.instagram.com/reel/Dcv_OAfBSl-/?utm_source=ig_web_button_share_sheet&stkn=MzRlODBiNWFlZA==)
+
+That's where I sat on September 1st. 10 pen rests, and nothing else to show for it. The earliest I could find reference to this project in my journal was December 2025. The physical work started in May, and totaled about 20 hours, so not an insignificant amount of time.
+
+### Learnings 
+We only learn if we fail. So this project was full of learning both in the technical aspects and in myself. Findings listed below:
+
+- I don't think I'll be making production runs ever again. It was just too much for me to balance with my life.
+    - Related: deadlines are also bad since woodworking/making is a hobby for me.
+        
+- I need to get better at finishing.
+    - While I can paint well sometimes, it's inconsistent and I can't be confident I'll finish a piece well unless i use shellac..
+    - It became clear people's desire for durable finishes that don't take maintenance outweigh sustainability for most companies/consumers.
+
+- Selling and shipping things is difficult.
+    - Even the products that were more expensive had a significant percentage of the revenue just to sell and ship. I'm not sure how I can decrease the cost of producing to help with this.
+
+- I need to use machines, or raise prices.
+    - I want the things I make to be cheaper, I can't spend as much time on them, which means more loud machines and risk of losing fingers.
+    - To raise prices, the quality needs to be significantly higher.
+
+- I'd enjoy making small runs of 2-3 objects as I can and then publishing and promoting them as "drops."
+
+- Programming is still fun and I enjoy it, but off the shelf solutions should be further investigated.
+
+- Shellac + pigment makes a decent - ish finish.
+
+
+- I love the charred/burned finish, and will implement it on my upcoming large build.
+
+
+> This is some part of a blockquote.
+> more stuff
+
+  </div>
+
+  <div id="rendered"></div>
+
+
+  
+<!-- markdown rendering-->
+ <script>
+    const md = document.getElementById('markdown-content').innerText;
+    document.getElementById('rendered').innerHTML = marked.parse(md);
+  </script>
+<!-- 100% privacy-first analytics -->
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</body>
+  <!-- Footer -->
+  <div id="footer"></div>
+</html>
