@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Duotone Creator</title>
+    <style>
+        :root {
+            --bg-color: #f4f4f5;
+            --text-color: #27272a;
+            --panel-bg: #ffffff;
+            --border-color: #e4e4e7;
+            --accent: #3b82f6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .controls {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        input[type="file"] {
+            font-size: 0.875rem;
+        }
+
+        input[type="color"] {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 50px;
+            height: 40px;
+            padding: 2px;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        .canvas-container {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+        }
+
+        #message {
+            color: #71717a;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Duotone Image Creator</h1>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="imageUpload">Upload Image</label>
+            <input type="file" id="imageUpload" accept="image/*">
+        </div>
+        
+        <div class="control-group">
+            <label for="shadowColor">Shadows</label>
+            <input type="color" id="shadowColor" value="#1e3a8a">
+        </div>
+
+        <div class="control-group">
+            <label for="highlightColor">Highlights</label>
+            <input type="color" id="highlightColor" value="#f59e0b">
+        </div>
+    </div>
+
+    <div class="canvas-container">
+        <div id="message">Please upload an image to begin.</div>
+        <canvas id="canvas" style="display: none;"></canvas>
+    </div>
+
+    <script>
+        const imageUpload = document.getElementById('imageUpload');
+        const shadowColor = document.getElementById('shadowColor');
+        const highlightColor = document.getElementById('highlightColor');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const message = document.getElementById('message');
+
+        let originalImage = null;
+
+        // Listen for user interactions
+        imageUpload.addEventListener('change', handleUpload);
+        shadowColor.addEventListener('input', applyDuotone);
+        highlightColor.addEventListener('input', applyDuotone);
+
+        function handleUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    originalImage = img;
+                    
+                    // Set canvas dimensions to match image
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    
+                    // Update UI
+                    message.style.display = 'none';
+                    canvas.style.display = 'block';
+                    
+                    // Apply the initial effect
+                    applyDuotone();
+                };
+                img.onerror = function() {
+                    message.textContent = "Failed to load image.";
+                    message.style.display = 'block';
+                    canvas.style.display = 'none';
+                };
+                img.src = e.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 0, g: 0, b: 0 };
+        }
+
+        function applyDuotone() {
+            if (!originalImage) return;
+
+            // 1. Draw the fresh original image onto the canvas
+            ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+
+            // 2. Extract image pixel data
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            // 3. Convert selected hex colors to RGB
+            const shadow = hexToRgb(shadowColor.value);
+            const highlight = hexToRgb(highlightColor.value);
+
+            // 4. Loop through every pixel (4 elements per pixel: R, G, B, A)
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+
+                // Calculate standard luminance to get a grayscale value (0 to 255)
+                const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+                
+                // Normalize luminance to a ratio between 0.0 and 1.0
+                const t = luminance / 255;
+
+                // Interpolate between shadow color and highlight color based on luminance
+                data[i]     = shadow.r + t * (highlight.r - shadow.r);     // Red
+                data[i + 1] = shadow.g + t * (highlight.g - shadow.g);     // Green
+                data[i + 2] = shadow.b + t * (highlight.b - shadow.b);     // Blue
+                // Alpha (data[i + 3]) remains untouched
+            }
+
+            // 5. Update the canvas with the new modified pixels
+            ctx.putImageData(imageData, 0, 0);
+        }
+    </script>
+</body>
+</html>
